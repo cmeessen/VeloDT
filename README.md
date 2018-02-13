@@ -1,4 +1,6 @@
 # VeloDT
+[![DOI](https://zenodo.org/badge/121383426.svg)](https://zenodo.org/badge/latestdoi/121383426)
+
 
 *VeloDT* contains two C++ implementations of *Vp*- and/or *Vs*-conversions to temperature and/or density valid in the upper mantle.
 
