@@ -1,8 +1,9 @@
-V2RhoT_GGV/*.o
-V2RhoT_GGV/Makefile
-V2RhoT_GGV/V2RhoT_GGV
-V2RhoT_GGV/test.out
-V2RhoT_GGV/Makefile
+bin/*
+V2RhoT/*.o
+V2RhoT/Makefile
+V2RhoT/V2RhoT
+V2RhoT/test.out
+V2RhoT/Makefile
 V2T/*.o
 V2T/Makefile
 V2T/V2T
