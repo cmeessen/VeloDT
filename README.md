@@ -13,7 +13,7 @@ different approaches.
 - [**V2RhoT**](./V2RhoT/) closely follows [Goes et al. (2000)](https://doi.org/10.1029/1999JB900300) to convert vp or
 vs to temperature and density assuming a mineral assemblage
 - [**V2T**](./V2T/) implements the method by [Priestley and McKenzie
-(2006)](https://doi.org/10.1016/j.epsl.2006.01.008) converts *Vs* to temperature
+(2006)](https://doi.org/10.1016/j.epsl.2006.01.008) and converts *Vs* to temperature
 
 Please refer to the original publications for validity and pitfalls of the methods.
 
