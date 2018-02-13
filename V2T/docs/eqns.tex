@@ -1,0 +1,60 @@
+% Document used to create the equations
+\documentclass[]{scrartcl}
+\usepackage{amsmath,eqnarray}
+\usepackage[utf8x]{inputenc}
+
+\begin{document}
+\Huge
+
+$V_s\left(P,\Theta,a\right)$
+\\
+\\
+\\
+$a=A^\prime e^{-\frac{E+PV_a}{RT}}$
+\\
+\\
+\\
+$V_s^*=\frac{V_s}{1+b_v(z-50km)}$
+\\
+\\
+\\
+$V_s^*\approx m\Theta + c + A\cdot e^{-\frac{E+PV_a}{RT}}$
+\\
+\\
+\\
+$
+\Theta_n =
+\begin{cases}
+\frac{V_s^*-c}{m}, & \text{if }V_s^* > 4.4\text{ km/s} \\
+1000\text{°C},     & \text{if }V_s^* \leq 4.4\text{ km/s}
+\end{cases}
+$
+\\
+\\
+\\
+$\Theta_{i+1} = \Theta_i - \frac{f_\Theta(\Theta_i)}{f'_\Theta(\Theta_i)}$
+\\
+\\
+\\
+$V_{s,calc}-V_{s,obs}=0$
+\\
+\\
+\\
+$f_\Theta(\Theta)=m\Theta + c + Ae^{-\frac{E+PV_a}{RT}}-V_s^*$
+\\
+\\
+\\
+$f'_\Theta(\Theta)=m+\frac{A(E+PV_a)}{RT^2}e^{-\frac{E+PV_a}{RT}}$
+\\
+\\
+\\
+\begin{tabular}{ccll}
+$b_V$ &=& $3.84\cdot10^{-4}$ & 1/km \\
+$m$   &=& $-2.8\cdot10^{-4}$ & km/s/°C \\
+$c$   &=& $4.72$             & km/s \\
+$A$   &=& $-1.8\cdot10^{13}$ & km/s \\
+$E$   &=& $409\cdot10^3$     & J/mol \\
+$V_a$ &=& $10\cdot10^{-6}$   & m$^3$/mol
+\end{tabular}
+
+\end{document}

@@ -1,0 +1,16 @@
+V2RhoT_GGV/*.o
+V2RhoT_GGV/Makefile
+V2RhoT_GGV/V2RhoT_GGV
+V2RhoT_GGV/test.out
+V2RhoT_GGV/Makefile
+V2T/*.o
+V2T/Makefile
+V2T/V2T
+V2T/docs/*synctex.gz
+V2T/docs/*.log
+V2T/docs/*.aux
+V2T/docs/*.pdf
+V2T/Makefile
+.DS_Store
+.qmake.stash
+*.app
