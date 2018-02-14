@@ -12,6 +12,8 @@ different approaches.
 
 ## Getting started
 
+Either clone the github repository or download the [latest release](https://github.com/cmeessen/VeloDT/releases) as source code or binary and extract it somewhere. If you downloaded the source code, you will have to compile the code. Therefore, navigate into the folders `V2RhoT` or `V2T` which both contain a README.md with instructions on compilation and usage
+
 - [**V2RhoT**](./V2RhoT/) closely follows [Goes et al. (2000)](https://doi.org/10.1029/1999JB900300) to convert vp or
 vs to temperature and density assuming a mineral assemblage
 - [**V2T**](./V2T/) implements the method by [Priestley and McKenzie
