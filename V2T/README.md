@@ -11,14 +11,14 @@ qmake
 make
 ```
 
-This generates the `V2T_PMK` executable.
+This generates the `V2T` executable.
 
-## Using V2T_PMK
+## Using V2T
 
-Executing `V2T_PMK -h` displays the available console commands together with two examples.
+Executing `V2T -h` displays the available console commands together with two examples.
 
 ```
-usage: V2T_PMK File_In File_Out [options]
+usage: V2T File_In File_Out [options]
 
   Required input parameters:
   --------------------------
@@ -29,10 +29,11 @@ usage: V2T_PMK File_In File_Out [options]
   ------    ----- ------- -----------
   -h                      This information
   --help                  Extended information
-  -ERM      string  AK135 P calculation with AK135 or PREM
+  -ERM      string  AK135 P calculation method AK135, PREM or simple
+  -outVs                  Writes VsObs and VsCalc to output file
   -rc       val      2890 Crustal density in kg/m3
   -rm       val      3300 Mantle density in kg/m3
-  -ra       val      3100 Average density in kg/m3
+  -ra       val      3100 Average density in kg/m3 used in '-ERM simple'
   -scaleZ   val         1 Scale every z-value by this value
   -scaleVs  val         1 Scale every Vs-value by this value
   -t_crust  path          EarthVision file for crustal thickness
@@ -102,21 +103,24 @@ density specified with '-ra'.
 
 Debug information
 -----------------
-Use './V2T_PMK 0 0 --WRITE_P model' to print calculated
+Use './V2T 0 0 --WRITE_P model' to print calculated
 pressures for the specific model. [model] can be 'AK135',
 'PREM' or 'simple'.
 ```
 
 ### Mandatory arguments
 
-`V2T_PMK` requires the input file `File_In`, containing x y z and vs, and the name of the output file `File_Out`. Input units for z is masl, for vs km/s.
+`V2T` requires the input file `File_In`, containing x y z and vs, and the name of the output file `File_Out`. Input units for z is masl, for vs km/s.
 
 ### Pressure calculation
 
 Standard calculation of **pressure** uses the earth reference model AK135.
+- options are `AK135`, `PREM` or `simple`
 - `-ERM PREM` activates pressure calculation with PREM
+- `-ERM simple` uses the average density defined with `-ra`
 - an experimental feature is the pressure calculation using topography and crustal thickness. This is activated by using `-t_crust FILENAME` and `-z_topo FILENAME`, which both require EarthVision formatted grids containing crustal thickness and topographic elevation. The pressure is then calculated assuming constant density for the crust (`-rc 2890`) and mantle (`-rm 3300`)
 - `-ra` defines an average density which is then used to calculate the pressure
+
 <!--  -->
 ## Theory
 
@@ -151,11 +155,11 @@ If _Vs*_ is below 4.4km/s, the temperature is iteratively calculated using the N
 
 <p align="center"><img src="docs/eqn6.png"></p>
 
-where _i_ represents the iteration step. We define the function _fTheta_ (```double V2T_PMK::ftheta(double VsS, double P, double T)```) as
+where _i_ represents the iteration step. We define the function _fTheta_ (```double V2T::ftheta(double VsS, double P, double T)```) as
 
 <p align="center"><img src="docs/eqn8.png"></p>
 
-Accordingly the derivative is (```V2T_PMK::dfdtheta(double P, double T)```)
+Accordingly the derivative is (```V2T::dfdtheta(double P, double T)```)
 
 <p align="center"><img src="docs/eqn9.png"></p>
 

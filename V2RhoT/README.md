@@ -43,7 +43,7 @@ usage: V2RhoT File_In File_Out -type <P,S> [options]
                           1 - On-cratonic (Shapiro and Ritzwoller, 2004)
                           2 - Off-cratonic (Shapiro and Ritzwoller, 2004)
                           3 - Oceanic (Shapiro and Ritzwoller, 2004)
-  -ERM      string  AK135 P calculation with AK135 or PREM
+  -ERM      string  AK135 P calculation method AK135, PREM or simple
   -f        val    1/0.02 Define custom wave frequency in Hz.
   -fdamp    val     0.025 Iteration dampening
   -minDB    1 or 2      1 Mineral property database by
@@ -56,14 +56,14 @@ usage: V2RhoT File_In File_Out -type <P,S> [options]
                           2 - Berckhemer et al. (1982)
   -rc       val      2890 Crustal density in kg/m3
   -rm       val      3300 Mantle density in kg/m3
-  -ra       val      3100 Average density in kg/m3
+  -ra       val      3100 Average density in kg/m3 used in '-ERM simple'
   -scaleZ   val         1 Scale every z-value in File_In by this value
   -scaleV   val         1 Scale every Vs-value in File_In by this value
-  -scatter                Use scattered data as input instead of regular  grid
+  -scatter                Use scattered data as input instead of regular grid
   -t        val       0.1 Threshold in K where Temperature iteration stops
   -Tstart   val    273.15 Iteration starting temperature
   -t_crust  path          EarthVision file for crustal thickness
-  -writedRdT              Writes used dRho/dT tables for minerals to a text  file
+  -writedRdT              Writes used dRho/dT tables for minerals to a text file
   -xfe      val         0 Define iron content of the rock in mole fraction
   -z_topo   path          EarthVision file for topographic elevation
 
@@ -96,6 +96,8 @@ By default, the **rock composition** is assumed to be a Garnet Lherzolite (Joran
 ### Pressure calculation
 
 Standard calculation of **pressure** uses the earth reference model AK135.
+- options are `AK135`, `PREM` or `simple`
 - `-ERM PREM` activates pressure calculation with PREM
+- `-ERM simple` uses the average density defined with `-ra`
 - an experimental feature is the pressure calculation using topography and crustal thickness. This is activated by using `-t_crust FILENAME` and `-z_topo FILENAME`, which both require EarthVision formatted grids containing crustal thickness and topographic elevation. The pressure is then calculated assuming constant density for the crust (`-rc 2890`) and mantle (`-rm 3300`)
 - `-ra` defines an average density which is then used to calculate the pressure

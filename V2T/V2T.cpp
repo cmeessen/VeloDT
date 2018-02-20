@@ -89,20 +89,22 @@ void V2T::Info() {
 void V2T::usage() {
   cout << endl
        << "usage: "
-       << "V2T File_In File_Out [options]\n\n"
+       << "V2T File_In File_Out [options]\n"
+       << endl
        << "  Required input parameters:\n"
        << "  --------------------------\n"
        << "  File_In          Path and name of grid file containing x y z Vs\n"
-       << "  File_Out         Output file name and path\n\n"
+       << "  File_Out         Output file name and path\n"
+       << endl
        << "  Option    Value Default Description\n"
        << "  ------    ----- ------- -----------\n"
        << "  -h                      This information\n"
        << "  --help                  Extended information\n"
-       << "  -ERM      string  AK135 P calculation with AK135 or PREM\n"
+       << "  -ERM      string  AK135 P calculation method AK135, PREM or simple\n"
        << "  -outVs                  Writes VsObs and VsCalc to output file\n"
        << "  -rc       val      2890 Crustal density in kg/m3\n"
        << "  -rm       val      3300 Mantle density in kg/m3\n"
-       << "  -ra       val      3100 Average density in kg/m3\n"
+       << "  -ra       val      3100 Average density in kg/m3 used in '-ERM simple'\n"
        << "  -scaleZ   val         1 Scale every z-value by this value\n"
        << "  -scaleVs  val         1 Scale every Vs-value by this value\n"
        << "  -t_crust  path          EarthVision file for crustal thickness\n"
@@ -110,7 +112,8 @@ void V2T::usage() {
        << "  -t        val       0.1 Threshold for Newton iterations\n"
        << "  -scatter                Use scattered data as input\n"
        << "  -v                      For debugging\n"
-       << "\n\n";
+       << endl
+       << endl;
   exit(0);
 }
 
