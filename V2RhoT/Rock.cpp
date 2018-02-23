@@ -332,7 +332,7 @@ void Rock::set_alpha3(double Ol, double Opx, double Cpx, double Sp, double Gnt) 
 }
 
 void Rock::set_omega(QString VelType) {
-  if (VelType == "P") {
+  if (VelType == "S") {
     set_omega(1);
   } else {
     set_omega(0.02);
@@ -447,7 +447,7 @@ void Rock::printProperties() {
   printline(width, "alpha2", "", minerals_alpha2);
   printline(width, "alpha3", "K", minerals_alpha3);
   cout << endl;
-  exit(1);
+  exit(0);
 }
 
 void Rock::alpha() {
