@@ -18,8 +18,12 @@
 #ifndef MINERALDRHODT_H_
 #define MINERALDRHODT_H_
 
-#include <QtGui>
+#include <QIODevice>
+#include <QFile>
+#include <QList>
+#include <QTextStream>
 #include <iostream>
+#include <math.h>
 #include "ANSIICodes.h"
 
 class MineraldRhodT {

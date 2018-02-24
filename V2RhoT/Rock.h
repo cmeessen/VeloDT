@@ -18,7 +18,8 @@
 #ifndef ROCK_H_
 #define ROCK_H_
 
-#include <QtGui>
+#include <QList>
+#include <math.h>
 #include <iostream>   //cout
 #include <iomanip>    //setwidth for cout
 #include <stdlib.h>   //exit

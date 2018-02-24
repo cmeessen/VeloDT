@@ -407,7 +407,7 @@ void Rock::printComposition() {
 
 void Rock::writedRdT() {
   dRhodT->exportTable();
-  exit(1);
+  exit(0);
 }
 
 void Rock::printProperties() {
@@ -577,21 +577,18 @@ void Rock::QP_T() {
   Estar = c_H + rock_P*c_V;
   val = c_A*pow(c_omega,c_a)*exp(c_a*Estar/c_R/rock_T);
   L = 4.*rock_mu_PT/(3.*rock_K_PT + 4.*rock_mu_PT);
-  val = rock_Qmu_T/L;
-  if(verbose){cout << "> QP(T) = " << val << endl;}
-  rock_QP_T = val;
+  rock_QP_T = rock_Qmu_T/L;
+  if(verbose){cout << "> QP(T) = " << rock_QP_T << endl;}
 }
 
 void Rock::dmudT() {
-  double val;
   double anh_mu_reuss = 0;
   if(verbose){cout << endl << "Calculate dmudT" << endl;}
   for(int i=0; i<5; i++) {
     anh_mu_reuss = anh_mu_reuss + Composition[i]/minerals_mu_PT[i];
   }
   anh_mu_reuss = 1./anh_mu_reuss;
-  val = anh_sum1 + anh_sum2/pow(anh_mu_reuss, 2);
-  rock_dmudT = val;
+  rock_dmudT = anh_sum1 + anh_sum2/pow(anh_mu_reuss, 2);
 }
 
 void Rock::dMdT() {

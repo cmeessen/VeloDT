@@ -18,7 +18,7 @@
 #ifndef V2RHOT_H_
 #define V2RHOT_H_
 
-#include <QtGui>
+#include <QDateTime>
 #include <ctime>
 #include <cmath>
 #include <stdlib.h>   //exit
