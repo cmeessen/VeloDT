@@ -16,7 +16,7 @@
 #        along with VeloDT. If not, see <http://www.gnu.org/licenses/>.        #
 ################################################################################
 TEMPLATE = app
-DESTDIR = ../../
+DESTDIR = ../../bin
 TARGET = V2RhoT
 CONFIG -= app_bundle
 
