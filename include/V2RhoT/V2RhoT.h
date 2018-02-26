@@ -19,6 +19,7 @@
 #define V2RHOT_H_
 
 #include <QDateTime>
+#include <QStringList>
 #include <ctime>
 #include <cmath>
 #include <stdlib.h>   //exit
