@@ -1,7 +1,13 @@
 language: cpp
+
+env:
+  - QT_BASE=4
+  - QT_BASE=5
+
 install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq qt5-qmake qt5-default
+  - sudo apt-get install -qq qt${QT_BASE}-default qt${QT_BASE}-qmake
+
 script:
   - qmake
   - make
