@@ -1,5 +1,5 @@
-V2RhoT = ../V2RhoT/V2RhoT
-V2T = ../V2T/V2T
+V2RhoT = ../bin/V2RhoT
+V2T = ../bin/V2T
 # Plot properties
 FIGURE = results.ps
 ROI_T = 450/1450/-200/-50
