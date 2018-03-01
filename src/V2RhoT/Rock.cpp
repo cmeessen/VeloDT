@@ -391,23 +391,36 @@ void Rock::printline(int width, QString title, QString unit,
 
 void Rock::printComposition() {
   QList <QString> header;
-  int width = 15;
+  QList <double> info_output;
+  const unsigned int width_col_1 = 12;
+  const unsigned int width_col_2 = 5;
+  const unsigned int width_col_c = 8;
+  const unsigned int width_tot = width_col_1 + width_col_2 + 6*width_col_c;
+
+  info_output << Composition;
+  info_output << rock_XFe;
+
   header << ("Ol");
   header << ("Opx");
   header << ("Cpx");
   header << ("Sp");
   header << ("Gnt");
+  header << ("XFe");
 
-  cout << endl;
-  cout << left << setw(width) << setfill(' ') << "Property";
-  cout << left << setw(10) << setfill(' ') << "Unit";
-  for(int i=0; i<5; i++) {
-    cout << right << setw(10) << setfill(' ') << header[i].toUtf8().data();
+  cout << endl
+       << left << setw(width_col_1) << setfill(' ') << "Property"
+       << left << setw(width_col_2) << setfill(' ') << "Unit";
+  for(int i=0; i<6; i++) {
+    cout << right << setw(width_col_c) << setfill(' ') << header[i].toUtf8().data();
   }
-  cout << endl;
-  cout << setw(75) << setfill('-') << "" << endl;
-  printline(width, "Composition", "rel.", Composition);
-  cout << endl;
+  cout << endl
+       << setw(width_tot) << setfill('-') << "" << endl
+       << left << setw(width_col_1) << setfill(' ') << "Composition"
+       << left << setw(width_col_2) << setfill(' ') << "rel.";
+  for(int i=0; i<6; i++) {
+    cout << right << setw(width_col_c) << setfill(' ') << info_output[i];
+  }
+  cout << endl << endl;
 }
 
 void Rock::writedRdT() {
