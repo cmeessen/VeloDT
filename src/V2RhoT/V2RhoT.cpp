@@ -106,7 +106,7 @@ void V2RhoT::Info() {
   cout << "Other\n"
        << "-----\n"
        << "Velocity type     : " << VelType.toUtf8().data() << endl
-       << "Omega             : " << MantleRock->getOmega()/2./M_PI << " Hz\n"
+       << "Frequency         : " << MantleRock->get_frequency() << " Hz\n"
        << "Verbose           : " << (verbose ? "true" : "false") << endl
        << "z-scaling factor  : " << scaleZ << endl
        << "V-scaling factor  : " << scaleVs << endl
@@ -345,15 +345,7 @@ void V2RhoT::readArgs(int &argc, char *argv[]) {
     }
   }
 
-  // Some logical checks
-  //if(ArbitraryPoints)
-  //{
-  //  printf("ArbitraryPoints: TRUE\n");
-  //}
-  //if(use_t_crust)
-  //{
-  //  printf("use_t_crust: TRUE\n");
-  //}
+  // Some logic checks
   if(!definedPMethod) {
     // If not defined by user initiate the default method
     ERM->set(PMethod);
@@ -581,7 +573,7 @@ bool V2RhoT::saveFile(QString OutName) {
     Info_header += QString("# Topography: %1\n").arg(File_z_topo);
     Info_header += QString("# Crustal thickness: %1\n").arg(File_t_crust);
   }
-  Info_header += QString("# Wave frequency (Omega) / Hz: %1\n").arg(MantleRock->getOmega()/2/M_PI);
+  Info_header += QString("# Wave frequency / Hz: %1\n").arg(MantleRock->get_frequency());
   Info_header += QString("# Dampening factor: %1\n").arg(c_Fdamp);
   Info_header += QString("# Iteration starting temperature / K: %1\n").arg(T_start);
   Info_header += QString("# Anelasticity parameters: %1\n").arg(MantleRock->getQ());

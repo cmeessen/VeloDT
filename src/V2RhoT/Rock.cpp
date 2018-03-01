@@ -339,6 +339,11 @@ void Rock::set_omega(QString VelType) {
   }
 }
 
+void Rock::set_omega(double f) {
+  c_frequency = f;
+  c_omega = 2.*M_PI*c_frequency;
+}
+
 bool Rock::setQ(int mode) {
   // Defines which Q-mode to be used
   if(mode == 1) {

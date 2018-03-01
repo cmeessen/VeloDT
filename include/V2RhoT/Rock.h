@@ -64,7 +64,7 @@ private:
 
   // Anelasticity parameters
   QString Qmode;
-  double c_a, c_A, c_H, c_V, c_omega;
+  double c_a, c_A, c_H, c_V, c_omega, c_frequency;
 
   // P/T independent parameters for calculation of d<mu>/dT for s-waves
   double rock_dmudT;
@@ -114,7 +114,7 @@ public:
   void set_T0(double val){c_T0=val;}
   void set_P0(double val){c_P0=val;}
   void set_omega(QString VelType);
-  void set_omega(double f){c_omega=2.*M_PI*f;}
+  void set_omega(double f);
   void set_Comp_init(double Ol, double Opx, double Cpx, double Sp,
                      double Gnt);
   void set_Comp(double Ol, double Opx, double Cpx, double Sp, double Gnt);
@@ -150,6 +150,7 @@ public:
   double getComposition(int idx){return Composition[idx];}
   double getRho(){return rock_rho_PT;}
   double getOmega(){return c_omega;}
+  double get_frequency(){return c_frequency;}
   QString getQ(){return Qmode;}
   double getXFe(){return rock_XFe;}
   bool CustomComposition(){return UseCustomComposition;}
