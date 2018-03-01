@@ -89,7 +89,7 @@ void V2RhoT::Info() {
   }
   cout << "Anelasticity parameters\n"
        << "-----------------------\n"
-       << "Q                 : " << MantleRock->getQ().toUtf8().data() << endl
+       << "Q                  : " << MantleRock->getQ().toUtf8().data() << endl
        << endl;
 
   if(MantleRock->CustomComposition() && !verbose) {
@@ -323,6 +323,7 @@ void V2RhoT::readArgs(int &argc, char *argv[]) {
       } else if(arg[i]=="-t") {
         threshold = arg[i+1].toDouble(&ok);
         argsError(arg[i], ok);
+        i++;
       } else if(arg[i]=="-v") {
         verbose = true;
         MantleRock->setVerbose(verbose);
