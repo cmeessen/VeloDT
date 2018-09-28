@@ -23,7 +23,7 @@ or download the [latest release](https://github.com/cmeessen/VeloDT/releases/lat
 
 - [**V2RhoT**](./V2RhoT.md) closely follows [Goes et al. (2000)](https://doi.org/10.1029/1999JB900300) to convert vp or vs to temperature and density assuming a mineral assemblage
 - [**V2T**](./V2T.md) implements the method by [Priestley and McKenzie (2006)](https://doi.org/10.1016/j.epsl.2006.01.008) and converts *Vs* to temperature
-- [**T2Rho](./T2Rho.md) applies the equations of [Goes et al. (2000)](https://doi.org/10.1029/1999JB900300) to compute densities from a given mineral composition, temperature and pressure
+- [**T2Rho**](./T2Rho.md) applies the equations of [Goes et al. (2000)](https://doi.org/10.1029/1999JB900300) to compute densities from a given mineral composition, temperature and pressure
 
 Please refer to the original publications for validity and pitfalls of the methods.
 
