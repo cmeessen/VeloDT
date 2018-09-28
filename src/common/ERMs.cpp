@@ -17,7 +17,8 @@
 *******************************************************************************/
 #include "ERMs.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
 
 const int AK135_LEN = 27;
 const int PREM_LEN = 107;
@@ -59,7 +60,7 @@ EarthReferenceModel::EarthReferenceModel(QString type) {
 
 bool EarthReferenceModel::INIT_AK135() {
   // Initialise AK135 from array
-  for(int i = 0; i < AK135_LEN; i++){
+  for (int i = 0; i < AK135_LEN; i++) {
     ERMz.append(ARR_AK135z[i]);
     ERMrho.append(ARR_AK135rho[i]);
   }
@@ -69,7 +70,7 @@ bool EarthReferenceModel::INIT_AK135() {
 
 bool EarthReferenceModel::INIT_PREM() {
   // Inititalise PREM from array
-  for(int i = 0; i < PREM_LEN; i++){
+  for (int i = 0; i < PREM_LEN; i++) {
     ERMz.append(ARR_PREMz[i]);
     ERMrho.append(ARR_PREMrho[i]);
   }
@@ -88,7 +89,7 @@ double EarthReferenceModel::pressure(double z) {
   bool DepthCalculated = false;
   Pcalc = 0.;
   z_abs = fabs(z);
-  while ( !DepthCalculated ) {
+  while (!DepthCalculated) {
     z1 = ERMz[i]*1000;
     z2 = ERMz[i+1]*1000;
     Rho1 = ERMrho[i]*1000;
@@ -108,9 +109,9 @@ double EarthReferenceModel::pressure(double z) {
 
 bool EarthReferenceModel::set(QString type) {
   // Define a reference model
-  if(type=="AK135") {
+  if (type == "AK135") {
     INIT_AK135();
-  } else if(type=="PREM") {
+  } else if (type == "PREM") {
     INIT_PREM();
   } else {
     std::cout << "Unknown reference model " << type.toUtf8().data() << endl;
@@ -130,13 +131,13 @@ bool EarthReferenceModel::writeP(double dz) {
   double nzfloat = (zmax - zmin)/dz + 1;
   cout << "Calculating pressures" << endl
        << "ERM type is " << ERMtype.toUtf8().data() << endl;
-  if(fmod(nzfloat,1) == 0.) {
+  if (fmod(nzfloat, 1) == 0.) {
     // Calculate pressures
-    int nz = (int) nzfloat;
+    int nz = static_cast<int>(nzfloat);
     QVector<double> depths;
     QVector<double> pressures;
     float z;
-    for(int i=0; i<nz; i++) {
+    for (int i=0; i < nz; i++) {
       z = zmin + i*dz;
       depths.append(z);
       pressures.append(pressure(z));
@@ -145,7 +146,7 @@ bool EarthReferenceModel::writeP(double dz) {
     QString OutName = "PressureAK135.txt";
     cout << "Writing temperature file " << OutName.toUtf8().data() << endl;
     QFile tmp(OutName);
-    if(!tmp.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    if (!tmp.open(QIODevice::WriteOnly | QIODevice::Text)) {
       cout << PRINT_ERROR "Could not open file " << OutName.toUtf8().data()
            << endl;
       return false;
@@ -155,7 +156,7 @@ bool EarthReferenceModel::writeP(double dz) {
     fout.setRealNumberPrecision(5);
     fout.setRealNumberNotation(QTextStream::FixedNotation);
     fout << T_header.toUtf8().data() << endl;
-    for(int i=0; i<nz; i++) {
+    for (int i=0; i < nz; i++) {
       fout << depths[i] << ' ' << pressures[i] << endl;
     }
     tmp.close();

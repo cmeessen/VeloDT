@@ -33,17 +33,16 @@ class EarthReferenceModel {
   QList <double> ERMz;
   QList <double> ERMrho;
   QString ERMtype;
-  private:
-    bool INIT_AK135();
-    bool INIT_PREM();
-  public:
-    EarthReferenceModel();
-    EarthReferenceModel(QString type);
-    bool set(QString type);
-    double pressure(double z);
-    QString type(){return ERMtype;}
-    bool writeP();
-    bool writeP(double dz);
+  bool INIT_AK135();
+  bool INIT_PREM();
+ public:
+  EarthReferenceModel();
+  EarthReferenceModel(QString type);
+  bool set(QString type);
+  double pressure(double z);
+  QString type() {return ERMtype;}
+  bool writeP();
+  bool writeP(double dz);
 };
 
 #endif // ERMS_H_
