@@ -323,7 +323,7 @@ bool V2T::readFile(QString InName, QString InType) {
       /// Topography or crustal thickness
       if (!t.startsWith("#") && (InType == "topo" || InType == "crust")) {
         QStringList vals = t.split(" ");
-        if (vals.count() != 6) {
+        if (vals.count() != 3) {
           file.close();
           cout << PRINT_ERROR "In header of " << InName.toUtf8().data()
                << " - grid size.";
