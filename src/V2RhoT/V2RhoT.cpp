@@ -799,7 +799,7 @@ bool V2RhoT::Iterate() {
     count_total.append(static_cast<double>(counter));
 
     progress = static_cast<int>(
-               round(static_cast<double>(i)/static_cast<double>(n_V))*100.0));
+               round(static_cast<double>(i)/static_cast<double>(n_V))*100.0);
     if (progress % 5 == 0) {
       printf("\rProgress: %i  ", progress);
     }

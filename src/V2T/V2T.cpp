@@ -736,7 +736,7 @@ bool V2T::newton() {
            << endl;
     } else {
       progress = static_cast<int>(
-                 round(static_cast<double>(i)/static_cast<double>(n))*100.0));
+                 round(static_cast<double>(i)/static_cast<double>(n))*100.0);
       if (progress % 5 == 0) {
         printf("\rProgress: %i       ", progress);
       }
