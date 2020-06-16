@@ -3,7 +3,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.1.0] - 2020-06-16
+## [v1.2.0] - 2020-06-16
+
+### Added
+
+- T2Rho applies the equations of
+  [Goes et al. (2000)](https://doi.org/10.1029/1999JB900300) to compute
+  densities from a given mineral composition, temperature and pressure
+
+### Fixed
+
+- File name of binaries is not "prerelease" anymore
+
+## [v1.1.0] - 2020-06-16
 
 ### Added
 
