@@ -17,7 +17,8 @@
 *******************************************************************************/
 #include "MineraldRhodT.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
 
 MineraldRhodT::MineraldRhodT() {
   AlphaMode = 0;
@@ -32,7 +33,7 @@ MineraldRhodT::MineraldRhodT() {
 }
 
 bool MineraldRhodT::set_AlphaMode(int mode) {
-  switch(mode) {
+  switch (mode) {
     case 0:
       // Alpha = const.
       AlphaMode = mode;
@@ -53,25 +54,25 @@ bool MineraldRhodT::set_AlphaMode(int mode) {
 
 void MineraldRhodT::set_alpha(int idx, double Ol, double Opx, double Cpx,
                               double Sp, double Gnt) {
-  if(idx==0) {
+  if (idx == 0) {
     alpha0.append(Ol);
     alpha0.append(Opx);
     alpha0.append(Cpx);
     alpha0.append(Sp);
     alpha0.append(Gnt);
-  } else if(idx==1) {
+  } else if (idx == 1) {
     alpha1.append(Ol);
     alpha1.append(Opx);
     alpha1.append(Cpx);
     alpha1.append(Sp);
     alpha1.append(Gnt);
-  } else if(idx==2) {
+  } else if (idx == 2) {
     alpha2.append(Ol);
     alpha2.append(Opx);
     alpha2.append(Cpx);
     alpha2.append(Sp);
     alpha2.append(Gnt);
-  } else if(idx==3) {
+  } else if (idx == 3) {
     alpha3.append(Ol);
     alpha3.append(Opx);
     alpha3.append(Cpx);
@@ -106,29 +107,29 @@ void MineraldRhodT::fill() {
 
   // Fill values for every mineral after Goes et al (2000)
   // Initial values are for T=0degC=273K
-  Rho_i0.append(3222.); //Ol
-  Rho_i0.append(3198.); //Opx
-  Rho_i0.append(3280.); //Cpx
-  Rho_i0.append(3578.); //Sp
-  Rho_i0.append(3565.); //Gnt
+  Rho_i0.append(3222.0);  //Ol
+  Rho_i0.append(3198.0);  //Opx
+  Rho_i0.append(3280.0);  //Cpx
+  Rho_i0.append(3578.0);  //Sp
+  Rho_i0.append(3565.0);  //Gnt
 
-  for(int i=0; i<5; i++) {
+  for (int i=0; i < 5; i++) {
     Rho_i1.append(0.);
     alpha_i.append(0.);
     dRhodT_i.append(0.);
     vals_T.append(0.);
   }
-  vals_T.append(0.); // vals_T needs one additional item for the temperature
+  vals_T.append(0.);     // vals_T needs one additional item for the temperature
 
   // Calculate
-  for(int i=0; i<i_max; i++) {
-    T_i = Tmin + (double) i;
+  for (int i=0; i < i_max; i++) {
+    T_i = Tmin + static_cast<double>(i);
     vals_T[0] = T_i;
 
-    for(int j=0; j<5; j++) {
-      if(AlphaMode==0) {
+    for (int j=0; j < 5; j++) {
+      if (AlphaMode == 0) {
         alpha_i[j] = alpha0[j];
-      } else if(AlphaMode==1) {
+      } else if (AlphaMode == 1) {
         alpha_i[j] = alpha0[j] + alpha1[j]*T_i + alpha2[j]/T_i
                      + alpha3[j]/T_i/T_i;
       }
@@ -159,14 +160,14 @@ double MineraldRhodT::dRhodT(double T, int mineral) {
     cout << PRINT_WARNING "Iteration failed. Temperature out of bounds T="
          << T << " K\n";
     return 999;
-  } else if ( fmod(T,1) == 0 && T < 2273.) {
+  } else if (fmod(T, 1) == 0 && T < 2273.0) {
     // If temperature is already in table
-    return vals[(int) T - 273][mineral+1];
+    return vals[static_cast<int>(T) - 273][mineral+1];
   } else {
-    T_low = (int) (T - fmod(T,1) - 273);
+    T_low = static_cast<int>(T - fmod(T, 1) - 273);
     dRdT_low = vals[T_low][mineral+1];
     dRdT_high = vals[T_low+1][mineral+1];
-    return (T - (double) T_low)*(dRdT_high - dRdT_low) + dRdT_low;
+    return (T - static_cast<double>(T_low))*(dRdT_high - dRdT_low) + dRdT_low;
   }
 }
 
@@ -177,7 +178,7 @@ void MineraldRhodT::exportTable() {
   cout << "Writing dRho/dT to " << OutName.toUtf8().data() << endl;
   QFile tmp(OutName);
 
-  if(!tmp.open(QIODevice::WriteOnly | QIODevice::Text)) {
+  if (!tmp.open(QIODevice::WriteOnly | QIODevice::Text)) {
     cout << PRINT_ERROR "Could not open file " << OutName.toUtf8().data()
          << endl;
     exit(1);
@@ -189,18 +190,18 @@ void MineraldRhodT::exportTable() {
   fout.setRealNumberNotation(QTextStream::FixedNotation);
   fout << T_header.toUtf8().data() << endl;
 
-  for(int i=0; i<vals.length(); i++) {
-    fout << vals[i][0];  //T
+  for (int i=0; i < vals.length(); i++) {
+    fout << vals[i][0];  // T
     fout << "\t";
-    fout << vals[i][1];  //Ol
+    fout << vals[i][1];  // Ol
     fout << "\t";
-    fout << vals[i][2];  //Opx
+    fout << vals[i][2];  // Opx
     fout << "\t";
-    fout << vals[i][3];  //Cpx
+    fout << vals[i][3];  // Cpx
     fout << "\t";
-    fout << vals[i][4];  //Sp
+    fout << vals[i][4];  // Sp
     fout << "\t";
-    fout << vals[i][5];  //Gnt
+    fout << vals[i][5];  // Gnt
     fout << "\t";
     fout << endl;
   }

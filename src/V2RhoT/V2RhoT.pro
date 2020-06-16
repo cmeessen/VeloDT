@@ -16,24 +16,17 @@
 #        along with VeloDT. If not, see <http://www.gnu.org/licenses/>.        #
 ################################################################################
 TEMPLATE = app
+DESTDIR = ../../bin
 TARGET = V2RhoT
 CONFIG -= app_bundle
-DEPENDPATH += .
-DEFINES +=
-INCLUDEPATH += . ../ ../common
-LIBS +=
 
-# Input
-HEADERS += V2RhoT.h \
-           Rock.h \
-           MineraldRhodT.h \
-           ../common/ANSIICodes.h \
-           ../common/PointClasses.h \
-           ../common/PhysicalConstants.h \
-           ../common/ERMs.h
-SOURCES += V2RhoT.cpp \
-           Rock.cpp \
-           MineraldRhodT.cpp \
-           ../common/PointClasses.cpp \
-           ../common/ERMs.cpp
-RESOURCES +=
+INCLUDEPATH += ../../include/common ../../include/V2RhoT
+
+LIBS += -L../common -lcommon
+
+SOURCES += V2RhoT.cpp Rock.cpp MineraldRhodT.cpp
+
+HEADERS += ../../include/V2RhoT/V2RhoT.h \
+           ../../include/V2RhoT/Rock.h \
+           ../../include/V2RhoT/MineraldRhodT.h
+

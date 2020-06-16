@@ -19,6 +19,7 @@
 #define V2RHOT_H_
 
 #include <QDateTime>
+#include <QStringList>
 #include <ctime>
 #include <cmath>
 #include <stdlib.h>   //exit
@@ -53,7 +54,7 @@ class V2RhoT {
   bool verbose;           // True for debugging
   bool petrel;            // Output Petrel points with attributes
   Rock * MantleRock;      // The object that hosts the rock properties
-  EarthReferenceModel * ERM; // Calculates pressure from an ERM
+  EarthReferenceModel * ERM;  // Calculates pressure from an ERM
 
   // Input data properties - 1: data_Vs, 2: t_crust, 3:z_topo
   double x_min1, x_max1, y_min1, y_max1, z_min1, z_max1, x_min2, x_max2,
@@ -65,25 +66,24 @@ class V2RhoT {
   QList <Point5D> data_V;
   QList <Point5D> data_T;
 
-  public:
-    V2RhoT();
-    ~V2RhoT();
-    QString FileIn(){return File_In;}
-    QString FileOut(){return File_Out;}
-    bool readFile(QString InName, QString InType);
-    bool saveFile(QString OutName);
-    void readArgs(int &argc, char *argv[]);
-    void usage();
-    bool Iterate();
-    void Info();
+  bool SetPMethod(QString method);
+  double pressure(double x, double y, double z);
+  double pressure_crust(double x, double y, double z);
+  double pressure_simple(double z);
+  void argsError(QString val, bool ok);
+  void help();
 
-  private:
-    bool SetPMethod(QString method);
-    double pressure(double x, double y, double z);
-    double pressure_crust(double x, double y, double z);
-    double pressure_simple(double z);
-    void argsError(QString val, bool ok);
-    void help();
+ public:
+  V2RhoT();
+  ~V2RhoT();
+  QString FileIn() {return File_In;}
+  QString FileOut() {return File_Out;}
+  bool readFile(QString InName, QString InType);
+  bool saveFile(QString OutName);
+  void readArgs(int &argc, char *argv[]);
+  void usage();
+  bool Iterate();
+  void Info();
 };
 
 #endif //V2RHOT_H_

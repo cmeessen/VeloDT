@@ -1,0 +1,22 @@
+language: cpp
+env:
+- QT_BASE=4
+- QT_BASE=5
+install:
+- sudo apt-get update -qq
+- sudo apt-get install -qq qt${QT_BASE}-default qt${QT_BASE}-qmake
+script:
+- qmake
+- make
+after_success:
+- tar -zcvf bin/bin-VeloDT-prerelease-ubuntu-qt${QT_BASE}-x86_64.tar.gz bin/V2RhoT
+  bin/V2T
+deploy:
+  provider: releases
+  api_key:
+    secure: ORqoxcPCHo19J3npN9/lFvwYMOuz7qifGg8G75OKIj3p3LlFdidmAHvWD1hd0Q3+zPXzNxG/CiAuwALjWFQdLIcB0vsKeeOlUII8/eGhDkaPjyW/VOdQT5XxqSevvtRdTIqJO2WAxO80TdZ6YZoz7Q9lkxSnGkpBH569pIIC2OkgcC62HGXT3jGlJ8I82fVl32uKTh2954kRRT5eXv24rYuGhp+jarc5n2io02HLOHLdz0qg3OcemFYJfbGJ7uPjQUh3lFJd6VfLX1cdkRYBFedsWST3y7i2+SnVUpIY+mr/bEGgf2xrE8OLXw4ABA8PhFloqkiHiOrkZ6Xc4Az+cmhZjOLAT04yL1HBpXrpUb8bpJVIfH5eda8ORwey/RST8JF/eqFM7pu+AXJpG9Fs6lEm/GczuTxMOcF3cTyxM3/Q96VZq3ZEVe8REuLqqyyy5J7IMifWZPH3hkWHjTYM2NsWroG45duFW+w3ts9QrLPOOwoXYgPMQ9CJJoo5lOrlfM4rOBujbXk+tn6QoyRFhne2mxIrHE4pcyfIwDz5bsi7ZxpfFa7sWaAro/DY+OGCuneNI1DtFJHGG0QzoCNVZXBTUUgeqQQf3Sp3XOF/O++yJ804+QS+fIMaAGB/fAo6l4d13zCpWqqQBjf3a5CcBve0aovSQHntid7xfW5tBNs=
+  file: bin/bin-VeloDT-prerelease-ubuntu-qt${QT_BASE}-x86_64.tar.gz
+  on:
+    tags: true
+    repo: cmeessen/VeloDT
+  skip_cleanup: 'true'

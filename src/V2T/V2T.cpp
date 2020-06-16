@@ -68,7 +68,7 @@ void V2T::Info() {
        << "Output\n"
        << "------\n"
        << "Temperatures        " << File_Out.toUtf8().data() << endl << endl;
-  if (use_t_crust || (PMethod=="simple")) {
+  if (use_t_crust || (PMethod == "simple")) {
     cout << "Densities\n"
          << "---------\n";
   }
@@ -76,7 +76,7 @@ void V2T::Info() {
     cout << "Crust             " << rho_crust << "kg/m3\n"
          << "Mantle            " << rho_mantle << "kg/m3\n";
   }
-  if (PMethod=="simple") {
+  if (PMethod == "simple") {
     cout << "Average           " << rho_avrg << " kg/m3\n\n";
   }
   cout << "Other\n"
@@ -184,7 +184,7 @@ void V2T::usage_extended() {
 
 bool V2T::test_data() {
   /// Check minima and maxima of data_Vs, t_crust and z_topo
-  if( use_t_crust && (
+  if (use_t_crust && (
       (x_min1 != x_min2) || (x_min2 != x_min3) ||
       (x_max1 != x_max2) || (x_max2 != x_max3) ||
       (y_min1 != y_min2) || (y_min2 != y_min3) ||
@@ -197,7 +197,7 @@ bool V2T::test_data() {
 }
 
 void V2T::argsError(QString val, bool ok) {
-  if(!ok) {
+  if (!ok) {
     cout << PRINT_ERROR "Invalid value in " << val.toUtf8().data() << endl;
     exit(1);
   }
@@ -216,88 +216,84 @@ void V2T::readArgs(int &argc, char *argv[]) {
   okTopo = false;
 
   QStringList arg;
-  for(i = 0; i < argc; i++) {
+  for (i = 0; i < argc; i++)
     arg << argv[i];
-  }
 
-  if( (argc>1) && (arg[1]=="-h" || arg[1]=="-help") ) {
+  if ((argc > 1) && (arg[1] == "-h" || arg[1] == "-help")) {
     usage();
-  }
-  else if( (argc>1) && (arg[1]=="--help") ) {
+  } else if ((argc > 1) && (arg[1] == "--help")) {
     usage_extended();
-  }
-  else if(argc<3) {
+  } else if (argc < 3) {
     cout << endl << endl << PRINT_ERROR "Not enough arguments!\n\n";
     usage();
-  }
-  else {
-    File_In=arg[1].toUtf8().data();
-    File_Out=arg[2].toUtf8().data();
+  } else {
+    File_In = arg[1].toUtf8().data();
+    File_Out = arg[2].toUtf8().data();
 
-    for(i = 3; i < argc; i++) {
-      if(arg[i]=="-ERM") {
-        ok=SetPMethod(arg[i+1]);
+    for (i=3; i < argc; i++) {
+      if (arg[i] == "-ERM") {
+        ok = SetPMethod(arg[i+1]);
         argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="--WRITE_P") {
+      } else if (arg[i] == "--WRITE_P") {
         WRITE_P(arg[i+1]);
-      } else if(arg[i]=="-outVs"){
+      } else if (arg[i] == "-outVs") {
         outVs = true;
-      } else if(arg[i]=="-rc") {
+      } else if (arg[i] == "-rc") {
         rho_crust = arg[i+1].toDouble(&ok);
-        argsError(arg[i],ok);
+        argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-rm") {
+      } else if (arg[i] == "-rm") {
         rho_mantle = arg[i+1].toDouble(&ok);
-        argsError(arg[i],ok);
+        argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-ra") {
+      } else if (arg[i] == "-ra") {
         rho_avrg = arg[i+1].toDouble(&ok);
-        argsError(arg[i],ok);
+        argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-scaleZ") {
+      } else if (arg[i] == "-scaleZ") {
         scaleZ = arg[i+1].toDouble(&ok);
-        argsError(arg[i],ok);
+        argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-scaleVs") {
+      } else if (arg[i] == "-scaleVs") {
         scaleVs = arg[i+1].toDouble(&ok);
-        argsError(arg[i],ok);
+        argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-t_crust") {
+      } else if (arg[i] == "-t_crust") {
         File_t_crust = arg[i+1];
         SetPMethod("crust");
         okCrust = true;
-      } else if(arg[i]=="-z_topo") {
+      } else if (arg[i] == "-z_topo") {
         File_z_topo = arg[i+1];
         SetPMethod("crust");
         okTopo = true;
-      } else if(arg[i]=="-scatter") {
+      } else if (arg[i] == "-scatter") {
         ArbitraryPoints = true;
-      } else if(arg[i]=="-t") {
+      } else if (arg[i] == "-t") {
         threshold = arg[i+1].toDouble(&ok);
-        argsError(arg[i],ok);
-      } else if(arg[i]=="-v") {
-        verbose=true;
+        argsError(arg[i], ok);
+      } else if (arg[i] == "-v") {
+        verbose = true;
       }
     }
   }
 
   // Some logical checks
-  if(ArbitraryPoints && use_t_crust) {
+  if (ArbitraryPoints && use_t_crust) {
     cout << PRINT_ERROR "Defined crustal thickness/topography using scattered "
             "data. Exit.\n";
     exit(1);
   }
-  if(okTopo ^ okCrust) {
+  if (okTopo ^ okCrust) {
     cout << PRINT_ERROR "Not enough arguments:\n";
-    if(okTopo) {
+    if (okTopo) {
       cout << "No crustal thickness file defined!\n";
     } else {
       cout << "No topographic elevation file defined!\n";
     }
     exit(1);
   }
-  if( (use_t_crust == false) && (ERM->type() == "Undefined") ) {
+  if ((use_t_crust == false) && (ERM->type() == "Undefined")) {
     ERM->set("AK135");
   }
 }
@@ -308,7 +304,7 @@ bool V2T::readFile(QString InName, QString InType) {
   double vs_min = -1;
   bool okx, oky, okz, okval, okGrid;
 
-  okGrid = false; // Used to check if grid size was extracted from input voxel
+  okGrid = false;  // Used to check if grid size was extracted from input voxel
 
   cout << "Reading file: " << InName.toUtf8().data() << endl;
   QFile file(InName);
@@ -317,29 +313,28 @@ bool V2T::readFile(QString InName, QString InType) {
   x_max1 = x_max2 = x_max3 = y_max1 = y_max2 = y_max3 = z_max1 = -x_min1;
 
   int n = 0;
-  if(file.open(QIODevice::ReadOnly)) {
+  if (file.open(QIODevice::ReadOnly)) {
     QTextStream stream( &file );
 
-    while(!stream.atEnd()) {
+    while (!stream.atEnd()) {
       n++;
       QString t = stream.readLine().simplified();
 
       /// Topography or crustal thickness
-
-      if(!t.startsWith("#") && (InType == "topo" || InType == "crust")) {
+      if (!t.startsWith("#") && (InType == "topo" || InType == "crust")) {
         QStringList vals = t.split(" ");
-        if(vals.count() != 3) {
+        if (vals.count() != 3) {
           file.close();
           cout << PRINT_ERROR "In header of " << InName.toUtf8().data()
                << " - grid size.";
           exit(1);
         } else {
-          x=vals[0].toDouble(&okx);
-          y=vals[1].toDouble(&oky);
-          z=vals[2].toDouble(&okz);
-          if(okx && oky && okz) {
-            Point3D p3D(x,y,z);
-            if(InType == "crust") {
+          x = vals[0].toDouble(&okx);
+          y = vals[1].toDouble(&oky);
+          z = vals[2].toDouble(&okz);
+          if (okx && oky && okz) {
+            Point3D p3D(x, y, z);
+            if (InType == "crust") {
               t_crust.append(p3D);
             } else if (InType == "topo") {
               z_topo.append(p3D);
@@ -350,50 +345,50 @@ bool V2T::readFile(QString InName, QString InType) {
             return false;
           }
 
-          //Determine min/max
-          if(InType == "crust") {
-            if(x < x_min2) {
+          // Determine min/max
+          if (InType == "crust") {
+            if (x < x_min2) {
               x_min2 = x;
-            } else if(x > x_max2) {
+            } else if (x > x_max2) {
               x_max2 = x;
             }
-            if(y < y_min2) {
+            if (y < y_min2) {
               y_min2 = y;
-            } else if(y > y_max2) {
+            } else if (y > y_max2) {
               y_max2 = y;
             }
           } else if (InType =="topo") {
-            if(x < x_min3) {
+            if (x < x_min3) {
               x_min3 = x;
-            } else if(x > x_max3) {
+            } else if (x > x_max3) {
               x_max3 = x;
             }
-            if(y < y_min3) {
+            if (y < y_min3) {
               y_min3 = y;
-            } else if(y > y_max3) {
+            } else if (y > y_max3) {
               y_max3 = y;
             }
           }
         }
-      }
-      /// S-wave velocity grid
-      else if(t.startsWith("# Grid_size:") && InType == "vox") {
-        t.remove(0,12);
+      } else if (t.startsWith("# Grid_size:") && InType == "vox") {
+        // S-wave velocity grid
+        t.remove(0, 12);
         QStringList gridSize = t.split("x", QString::SkipEmptyParts);
         nX = gridSize[0].toInt(&okx);
         nY = gridSize[1].toInt(&oky);
         nZ = gridSize[2].toInt(&okz);
-        if(!okx || !oky || !okz) {
+        if (!okx || !oky || !okz) {
           cout << PRINT_ERROR "In header of " << InName.toUtf8().data()
                << " - grid size." << endl;
           exit(1);
         }
         okGrid = true;
-      } else if(!t.startsWith("#") && InType == "vox") {
+      } else if (!t.startsWith("#") && InType == "vox") {
         QStringList vals = t.split(" ");
-        if(vals.count() != 4) {
+        if (vals.count() != 4) {
           file.close();
-          cout << PRINT_ERROR "In line " << n << ": unkown amount of columns.\n";
+          cout << PRINT_ERROR "In line " << n << ": unkown amount of columns."
+               << endl;
           exit(1);
         } else {
           x = vals[0].toDouble(&okx);
@@ -401,8 +396,8 @@ bool V2T::readFile(QString InName, QString InType) {
           z = scaleZ*vals[2].toDouble(&okz);
           val = scaleVs*vals[3].toDouble(&okval);
 
-          if(okx && oky && okz && okval) {
-            Point4D p4D(x,y,z,val);
+          if (okx && oky && okz && okval) {
+            Point4D p4D(x, y, z, val);
             data_Vs.append(p4D);
           } else {
             file.close();
@@ -412,36 +407,38 @@ bool V2T::readFile(QString InName, QString InType) {
 
           // Get minima and maxima
           // X
-          if(x < x_min1) {
+          if (x < x_min1) {
             x_min1 = x;
-          } else if(x > x_max1) {
+          } else if (x > x_max1) {
             x_max1 = x;
           }
           // Y
-          if(y < y_min1) {
+          if (y < y_min1) {
             y_min1 = y;
-          } else if(y > y_max1) {
+          } else if (y > y_max1) {
             y_max1 = y;
           }
           // Z
-          if(z < z_min1) {
+          if (z < z_min1) {
             z_min1 = z;
-          } else if(z > z_max1) {
+          } else if (z > z_max1) {
             z_max1 = z;
           }
           // Get minimum vs to check for km/s or m/s
-          if(vs_min == -1){ vs_min = val; }
-          if(val < vs_min) { vs_min = val; }
+          if (vs_min == -1)
+            vs_min = val;
+          if (val < vs_min)
+            vs_min = val;
         }
       }
     }
-    if(!ArbitraryPoints && !okGrid) {
+    if (!ArbitraryPoints && !okGrid) {
       cout << PRINT_WARNING "Could not find grid information. Set output to "
              "scattered data.\n";
       ArbitraryPoints = true;
     }
     file.close();
-    if(vs_min > 10) {
+    if (vs_min > 10) {
       cout << PRINT_WARNING "Minimum Vs is " << vs_min << " which is unusually "
               "high. Vs must be in km/s. Use -scaleVs to correct.\n";
     }
@@ -465,14 +462,14 @@ bool V2T::saveFile(QString OutName) {
   T_info += QString("# z-factor: %1\n").arg(scaleZ, 0, 'f');
   T_info += QString("# Vs-factor: %1\n").arg(scaleVs, 0, 'f');
   T_info += QString("# Pressure calculation method: %1\n").arg(PMethod);
-  if(PMethod == "simple") {
+  if (PMethod == "simple") {
     T_info += QString("# Average density: %1 kg/m3\n").arg(rho_avrg, 0, 'f');
   } else if (PMethod == "crust") {
     T_info += QString("# Density crust: %1 kg/m3\n").arg(rho_crust, 0, 'f');
     T_info += QString("# Density mantle: %1 kg/m3").arg(rho_mantle, 0, 'f');
   }
   // GMS compatible file
-  if(!ArbitraryPoints) {
+  if (!ArbitraryPoints) {
     T_header =  QString("# Type: GMS GridPoints\n"
                         "# Version: 2\n"
                         "# Description:\n"
@@ -481,19 +478,19 @@ bool V2T::saveFile(QString OutName) {
                         "# Field: 2 Y / m\n"
                         "# Field: 3 Z / m\n"
                         "# Field: 4 T / degC\n");
-    if(outVs) {
+    if (outVs) {
       T_header += QString("# Field: 4 VsObs / degC\n"
                           "# Field: 5 VsCalc / degC\n");
     }
     T_header += QString("# Projection: Local Rectangular\n");
     T_header += QString("# Information from grid:\n");
     T_header += QString("# Grid_size: %1 x %2 x %3\n").arg(nX).arg(nY).arg(nZ);
-    T_header += QString("# Grid_X_range: %1 to %2\n").arg(x_min1,0,'f')
-                                                     .arg(x_max1,0,'f');
-    T_header += QString("# Grid_Y_range: %1 to %2\n").arg(y_min1,0,'f')
-                                                     .arg(y_max1,0,'f');
-    T_header += QString("# Grid_Z_range: %1 to %2\n").arg(z_min1,0,'f')
-                                                     .arg(z_max1,0,'f');
+    T_header += QString("# Grid_X_range: %1 to %2\n").arg(x_min1, 0, 'f')
+                                                     .arg(x_max1, 0, 'f');
+    T_header += QString("# Grid_Y_range: %1 to %2\n").arg(y_min1, 0, 'f')
+                                                     .arg(y_max1, 0, 'f');
+    T_header += QString("# Grid_Z_range: %1 to %2\n").arg(z_min1, 0, 'f')
+                                                     .arg(z_max1, 0, 'f');
     T_header += T_info;
     T_header += QString("# End:");
   } else {
@@ -503,7 +500,7 @@ bool V2T::saveFile(QString OutName) {
                         "# 2 - Y\n"
                         "# 3 - Z / m\n"
                         "# 4 - T / degC\n");
-    if(outVs) {
+    if (outVs) {
       T_header += QString("# 5 - VsObs / degC\n"
                           "# 6 - VsCalc / degC\n");
     }
@@ -513,8 +510,9 @@ bool V2T::saveFile(QString OutName) {
   cout << "Writing temperature file " << OutName.toUtf8().data() << endl;
   QFile tmp(OutName);
 
-  if(!tmp.open(QIODevice::WriteOnly | QIODevice::Text)) {
-    cout << PRINT_ERROR "Could not open file " << OutName.toUtf8().data() << endl;
+  if (!tmp.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    cout << PRINT_ERROR "Could not open file " << OutName.toUtf8().data()
+         << endl;
     exit(1);
   }
 
@@ -523,13 +521,13 @@ bool V2T::saveFile(QString OutName) {
   out.setFieldAlignment(QTextStream::AlignRight);
   out.setRealNumberNotation(QTextStream::FixedNotation);
   out << T_header.toUtf8().data();
-  for(int i=0; i<data_T.length(); i++) {
+  for (int i=0; i < data_T.length(); i++) {
     out << data_T[i].x() << "\t"
         << data_T[i].y() << "\t"
         << data_T[i].z() << "\t";
     out.setRealNumberPrecision(1);
     out << data_T[i].v();
-    if(outVs) {
+    if (outVs) {
       out.setRealNumberPrecision(3);
       out << "\t" << data_Vs[i].v() << "\t"
           << data_Vcalc[i];
@@ -583,9 +581,9 @@ double V2T::pressure(double x, double y, double z) {
   /**
   Call the appropriate function based on the selected pressure calculation
   **/
-  if(use_t_crust) {
+  if (use_t_crust) {
     return pressure_crust(x, y, z);
-  } else if( (PMethod=="AK135") || (PMethod=="PREM")) {
+  } else if((PMethod == "AK135") || (PMethod == "PREM")) {
     return ERM->pressure(z);
   } else {
     return pressure_simple(z);
@@ -608,15 +606,17 @@ double V2T::pressure_crust(double x, double y, double z) {
   double P_crust, t_mantle, P_mantle;
 
   // Get index in data_t_crust and data_z_topo
-  i=0;
-  while( (t_crust[i].x()!=x) && (t_crust[i].y()!=y)){i++;}
+  i = 0;
+  while ((t_crust[i].x() != x) && (t_crust[i].y() != y))
+    i++;
   i_crust = i;
   i = 0;
-  while( (z_topo[i].x()!=x) && (z_topo[i].y()!=y)){i++;}
+  while ((z_topo[i].x() != x) && (z_topo[i].y() != y))
+    i++;
   i_topo=i;
 
-  P_crust = rho_crust*c_g*t_crust[i_crust].z();               //P from crust
-  t_mantle = z_topo[i_topo].z() - t_crust[i_crust].z() - z;   //Thickness mantle
+  P_crust = rho_crust*c_g*t_crust[i_crust].z();              // P from crust
+  t_mantle = z_topo[i_topo].z() - t_crust[i_crust].z() - z;  // Thickness mantle
 
   if (t_mantle < 0) {
     cout << "Error: Mantle thickness < 0\nExit\n";
@@ -668,12 +668,12 @@ bool V2T::newton() {
   count_fail = 0;   // Counts how often solution could not be found
   j = 0;
 
-  for(int i=0; i<n; i++) {
+  for (int i=0; i < n; i++) {
     // Read data
     Vs = data_Vs[i].v();
     x = data_Vs[i].x();
     y = data_Vs[i].y();
-    z = data_Vs[i].z(); // z in m
+    z = data_Vs[i].z();  // z in m
 
     // Calculate Vs* [km/s]
     // See Priestley and McKenzie (2006), Eqn 3
@@ -682,19 +682,20 @@ bool V2T::newton() {
     P = pressure(x, y, z);
 
     // See Priestley and McKenzie (2006), Eqn 10
-    if(VsS < 4.4) {
+    if (VsS < 4.4) {
       theta_init = 1000.0;
       // Calculate initial T estimate theta_i0 and derivative theta_i0_d
-      theta_i1 = theta_init - ftheta(VsS,P,theta_init)/dfdtheta(P,theta_init);
+      theta_i1 = theta_init
+                 - ftheta(VsS, P, theta_init)/dfdtheta(P, theta_init);
 
       // Start Newton iteration
       delta_theta = threshold + 1;
       j = 0;
-      while(delta_theta > threshold) {
-        numerator = ftheta(VsS,P,theta_i1);
-        denominator = dfdtheta(P,theta_i1);
+      while (delta_theta > threshold) {
+        numerator = ftheta(VsS, P, theta_i1);
+        denominator = dfdtheta(P, theta_i1);
 
-        if(denominator == 0) {
+        if (denominator == 0) {
           // If denominator = 0, add 1 to counter and continue with next value
           count_zero += 1;
           theta_i1 = -1;
@@ -707,7 +708,7 @@ bool V2T::newton() {
 
         j++;
 
-        if(j > 10000) {
+        if (j > 10000) {
           printf("\r" PRINT_WARNING "Too many iterations!\n");
           printf("Coordinates: %f, %f, %f, Vs: %f\n",x,y,z,Vs);
           count_fail += 1;
@@ -715,7 +716,7 @@ bool V2T::newton() {
           break;
         }
       }
-      if(verbose){
+      if (verbose){
         cout << "Estimated temperature " << theta_i1 << endl
              << "delta_theta           " << delta_theta << endl
              << "Iteration steps       " << j << endl << endl;
@@ -724,7 +725,7 @@ bool V2T::newton() {
       theta_i1 = (VsS-c_c)/c_m;
     }
 
-    if(verbose) {
+    if (verbose) {
       cout << endl
            << "Point #" << i << endl
            << "Depth                       z       / m    " << z << endl
@@ -734,8 +735,9 @@ bool V2T::newton() {
            << "Calculated temperature      theta_i / degC " << theta_i1 << endl
            << endl;
     } else {
-      progress = (int)round( (double(i)/double(n)) * 100);
-      if(progress % 5 == 0) {
+      progress = static_cast<int>(
+                 round(static_cast<double>(i)/static_cast<double>(n))*100.0);
+      if (progress % 5 == 0) {
         printf("\rProgress: %i       ", progress);
       }
     }
@@ -748,7 +750,7 @@ bool V2T::newton() {
     data_T.append(p4D);
 
     // Calculate synthetic velocity from temperature
-    if(outVs) {
+    if (outVs) {
       double VsSCalc = c_m*theta_i1 + c_c
                        + c_A*exp(-(c_E*1000 + P*c_Va)/c_R/(theta_i1 + c_K));
       double VsCalc = VsSCalc*(1 + c_bV*(fabs(z)/1000 - 50));
@@ -776,15 +778,16 @@ void V2T::WRITE_P(QString method) {
   zi = zmin;
   while (zi <= zmax) {
     TEST_Z.append(zi);
-    TEST_P.append(pressure(0,0,zi));
+    TEST_P.append(pressure(0, 0, zi));
     zi+=dz;
   }
 
   cout << "Writing pressures to " << OutName.toUtf8().data() << endl;
   QFile tmp(OutName);
 
-  if(!tmp.open(QIODevice::WriteOnly | QIODevice::Text)) {
-    cout << PRINT_ERROR "Could not open file " << OutName.toUtf8().data() << endl;
+  if (!tmp.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    cout << PRINT_ERROR "Could not open file " << OutName.toUtf8().data()
+         << endl;
     exit(1);
   }
 
@@ -796,7 +799,7 @@ void V2T::WRITE_P(QString method) {
   out.setFieldAlignment(QTextStream::AlignRight);
   out.setRealNumberNotation(QTextStream::FixedNotation);
   out << T_header.toUtf8().data() << endl;
-  for(i = 0; i < TEST_P.length(); i++) {
+  for (i=0; i < TEST_P.length(); i++) {
     out << TEST_Z[i];
     out << "\t";
     out << TEST_P[i];
@@ -812,13 +815,13 @@ void V2T::WRITE_P(QString method) {
 //##############################################################################
 int main(int argc, char *argv[]) {
   V2T VelTemp;
-  if(argc > 0) {
-    VelTemp.readArgs(argc,argv);
+  if (argc > 0) {
+    VelTemp.readArgs(argc, argv);
     VelTemp.Info();
-    VelTemp.readFile(VelTemp.FileIn(),"vox");
-    if(VelTemp.UseCrust()) {
-      VelTemp.readFile(VelTemp.FileTCrust(),"crust");
-      VelTemp.readFile(VelTemp.FileZTopo(),"topo");
+    VelTemp.readFile(VelTemp.FileIn(), "vox");
+    if (VelTemp.UseCrust()) {
+      VelTemp.readFile(VelTemp.FileTCrust(), "crust");
+      VelTemp.readFile(VelTemp.FileZTopo(), "topo");
     }
     VelTemp.test_data();
     VelTemp.newton();

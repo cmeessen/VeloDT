@@ -28,12 +28,11 @@
 #include "PhysicalConstants.h"
 
 class Rock {
-private:
   // Variables
   bool verbose;
   int AlphaMode;
   QString MineralPropertyDB;
-  MineraldRhodT * dRhodT; // Table that stores dRho/dT(T)
+  MineraldRhodT * dRhodT;  // Table that stores dRho/dT(T)
   QList <double> Composition;
   QList <double> minerals_rho;
   QList <double> minerals_rhoXFe;
@@ -64,7 +63,7 @@ private:
 
   // Anelasticity parameters
   QString Qmode;
-  double c_a, c_A, c_H, c_V, c_omega;
+  double c_a, c_A, c_H, c_V, c_omega, c_frequency;
 
   // P/T independent parameters for calculation of d<mu>/dT for s-waves
   double rock_dmudT;
@@ -99,22 +98,22 @@ private:
   void Vsyn_PT(QString VelType);
   void dVdTsyn_PT(QString VelType);
 
-public:
+ public:
   Rock();
   ~Rock();
   void printProperties();
   void printComposition();
   void writedRdT();
-  void setVerbose(bool val){verbose=val;}
+  void setVerbose(bool val) {verbose = val;}
 
   // Defining properties
   bool set_AlphaMode(int mode);
   bool set_MineralPropertyDB(QString db);
   bool set_XFe(double val);
-  void set_T0(double val){c_T0=val;}
-  void set_P0(double val){c_P0=val;}
+  void set_T0(double val) {c_T0 = val;}
+  void set_P0(double val) {c_P0 = val;}
   void set_omega(QString VelType);
-  void set_omega(double f){c_omega=2.*M_PI*f;}
+  void set_omega(double f);
   void set_Comp_init(double Ol, double Opx, double Cpx, double Sp,
                      double Gnt);
   void set_Comp(double Ol, double Opx, double Cpx, double Sp, double Gnt);
@@ -142,17 +141,18 @@ public:
   bool setQ(int mode);
 
   // Obtaining values
-  int get_AlphaMode(){return AlphaMode;}
+  int get_AlphaMode() {return AlphaMode;}
   QString get_AlphaModeStr();
-  QString get_MineralPropertyDB(){return MineralPropertyDB;}
-  double get_Vsyn_PT(){return rock_Vsyn_PT;}
-  double get_dVdTsyn_PT(){return rock_dVdTsyn_PT;}
-  double getComposition(int idx){return Composition[idx];}
-  double getRho(){return rock_rho_PT;}
-  double getOmega(){return c_omega;}
-  QString getQ(){return Qmode;}
-  double getXFe(){return rock_XFe;}
-  bool CustomComposition(){return UseCustomComposition;}
+  QString get_MineralPropertyDB() {return MineralPropertyDB;}
+  double get_Vsyn_PT() {return rock_Vsyn_PT;}
+  double get_dVdTsyn_PT() {return rock_dVdTsyn_PT;}
+  double getComposition(int idx) {return Composition[idx];}
+  double getRho() {return rock_rho_PT;}
+  double getOmega() {return c_omega;}
+  double get_frequency() {return c_frequency;}
+  QString getQ() {return Qmode;}
+  double getXFe() {return rock_XFe;}
+  bool CustomComposition() {return UseCustomComposition;}
 };
 
 #endif // ROCK_H_

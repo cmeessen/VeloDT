@@ -16,17 +16,15 @@
 #        along with VeloDT. If not, see <http://www.gnu.org/licenses/>.        #
 ################################################################################
 TEMPLATE = app
+DESTDIR = ../../bin
 TARGET = V2T
 CONFIG -= app_bundle
-DESTDIR = ./
 
-INCLUDEPATH += ../ ../common
+INCLUDEPATH += ../../include/common ../../include/V2T
 
-HEADERS += V2T.h \
-           ../common/PointClasses.h \
-           ../common/ANSIICodes.h \
-           ../common/ERMs.h
+LIBS += -L../common -lcommon
 
-SOURCES += V2T.cpp \
-           ../common/PointClasses.cpp \
-           ../common/ERMs.cpp
+SOURCES += V2T.cpp
+
+HEADERS += V2T.h
+

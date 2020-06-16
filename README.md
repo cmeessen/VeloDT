@@ -1,6 +1,7 @@
 # VeloDT
-[![DOI](https://zenodo.org/badge/121383426.svg)](https://zenodo.org/badge/latestdoi/121383426)
 
+[![DOI](https://zenodo.org/badge/121383426.svg)](https://zenodo.org/badge/latestdoi/121383426)
+[![Build Status](https://travis-ci.org/cmeessen/VeloDT.svg?branch=restructure-repo)](https://travis-ci.org/cmeessen/VeloDT)
 
 *VeloDT* contains two C++ implementations of *Vp*- and/or *Vs*-conversions to temperature and/or density valid in the upper mantle.
 
@@ -13,14 +14,17 @@ different approaches.
 ## Getting started
 
 Either clone the github repository with
-```
+
+```bash
 git clone https://github.com/cmeessen/VeloDT.git
 ```
-or download the [latest release](https://github.com/cmeessen/VeloDT/releases/latest) as source code or binary and extract it somewhere. If you downloaded the source code, you will have to compile the code. Therefore, navigate into the folders `V2RhoT` or `V2T` which both contain a README.md with instructions on compilation and usage
 
-- [**V2RhoT**](./V2RhoT/) closely follows [Goes et al. (2000)](https://doi.org/10.1029/1999JB900300) to convert vp or
+or download the [latest release](https://github.com/cmeessen/VeloDT/releases/latest) as source code or binary and extract it somewhere. If you downloaded the source code, you will have to compile the code (see below).
+
+- [**V2RhoT**](./V2RhoT.md) closely follows [Goes et al. (2000)](https://doi.org/10.1029/1999JB900300) to convert vp or
 vs to temperature and density assuming a mineral assemblage
-- [**V2T**](./V2T/) implements the method by [Priestley and McKenzie
+
+- [**V2T**](./V2T.md) implements the method by [Priestley and McKenzie
 (2006)](https://doi.org/10.1016/j.epsl.2006.01.008) and converts *Vs* to temperature
 
 Please refer to the original publications for validity and pitfalls of the methods.
@@ -41,12 +45,14 @@ Requirements for plotting the example:
 
 ### Compiling
 
-Both tools are compiled in the same manner. Open the directory `V2RhoT` or `V2T` in a terminal and execute in the following order
+Navigate to the base folder `./VeloDT` and execute
 
-```
+```bash
 qmake
 make
 ```
+
+This will build the `V2RhoT` and `V2T` executables and put them in the `./VeloDT` folder.
 
 ## License
 

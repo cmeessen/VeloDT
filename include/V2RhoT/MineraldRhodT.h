@@ -15,35 +15,38 @@
 *      You should have received a copy of the GNU General Public License       *
 *        along with VeloDT. If not, see <http://www.gnu.org/licenses/>.        *
 *******************************************************************************/
-#ifndef ERMS_H_
-#define ERMS_H_
+#ifndef MINERALDRHODT_H_
+#define MINERALDRHODT_H_
 
+#include <QIODevice>
 #include <QFile>
 #include <QList>
-#include <QString>
 #include <QTextStream>
-#include <QVector>
 #include <iostream>
 #include <math.h>
 #include "ANSIICodes.h"
-#include "PhysicalConstants.h"
-#include "PointClasses.h"
 
-class EarthReferenceModel {
-  QList <double> ERMz;
-  QList <double> ERMrho;
-  QString ERMtype;
-  private:
-    bool INIT_AK135();
-    bool INIT_PREM();
-  public:
-    EarthReferenceModel();
-    EarthReferenceModel(QString type);
-    bool set(QString type);
-    double pressure(double z);
-    QString type(){return ERMtype;}
-    bool writeP();
-    bool writeP(double dz);
+class MineraldRhodT {
+/**
+This class hosts the mineral property dRho/dT
+It must be calculated numerically to avoid errors far away from the reference
+temperature. The values will be stored in arrays.
+**/
+  // Variables
+  double Tmin, Tmax;
+  QList <QList <double> > vals;
+  QList <double> alpha0, alpha1, alpha2, alpha3;
+  int AlphaMode;
+  // Functions
+  void set_alpha(int idx, double Ol, double Opx, double Cpx, double Sp,
+                 double Gnt);
+  void fill();             // Calculate dRho/dT tables
+
+ public:
+  MineraldRhodT();
+  bool set_AlphaMode(int mode);
+  double dRhodT(double T, int mineral);  // Returns dRhodT at T
+  void exportTable();
 };
 
-#endif // ERMS_H_
+#endif // MINERALDRHODT_H_
