@@ -1,7 +1,7 @@
 # VeloDT
 
 [![DOI](https://zenodo.org/badge/121383426.svg)](https://zenodo.org/badge/latestdoi/121383426)
-[![Build Status](https://travis-ci.org/cmeessen/VeloDT.svg?branch=restructure-repo)](https://travis-ci.org/cmeessen/VeloDT)
+[![Build Status](https://travis-ci.org/cmeessen/VeloDT.svg?branch=master)](https://travis-ci.org/cmeessen/VeloDT)
 
 *VeloDT* contains two C++ implementations of *Vp*- and/or *Vs*-conversions to temperature and/or density valid in the upper mantle.
 
@@ -23,9 +23,9 @@ or download the [latest release](https://github.com/cmeessen/VeloDT/releases/lat
 
 - [**V2RhoT**](./V2RhoT.md) closely follows [Goes et al. (2000)](https://doi.org/10.1029/1999JB900300) to convert vp or
 vs to temperature and density assuming a mineral assemblage
-
 - [**V2T**](./V2T.md) implements the method by [Priestley and McKenzie
 (2006)](https://doi.org/10.1016/j.epsl.2006.01.008) and converts *Vs* to temperature
+- [**T2Rho**](./T2Rho.md) applies the equations of [Goes et al. (2000)](https://doi.org/10.1029/1999JB900300) to compute densities from a given mineral composition, temperature and pressure
 
 Please refer to the original publications for validity and pitfalls of the methods.
 
