@@ -1,0 +1,22 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## [1.1.0] - 2020-06-16
+
+### Added
+
+- CHANGELOG
+- Build binaries for Ubuntu using QT4 and QT5 and release them when a tag is
+  added
+
+### Changed
+
+- Repository structure changed, using include and src folders
+
+### Fixed
+
+- Fixed an bug when using argument `-t`
+- Fixed an typo in `readFile()` that made it impossible to use topography or
+  crustal thickness maps

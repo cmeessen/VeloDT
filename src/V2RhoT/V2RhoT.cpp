@@ -20,7 +20,8 @@
 #define _USE_MATH_DEFINES
 #define EOL "\n"
 
-using namespace std;
+using std::cout;
+using std::endl;
 
 const QString compilationTime = QString("%1 %2").arg(__DATE__).arg(__TIME__);
 
@@ -70,7 +71,7 @@ void V2RhoT::Info() {
        << "Input\n"
        << "-----\n"
        << "Vs                 : " << File_In.toUtf8().data() << "\n";
-  if(use_t_crust){
+  if (use_t_crust) {
   cout << "Topography         : " << File_z_topo.toUtf8().data() << "\n"
        << "Crustal thickness  : " << File_t_crust.toUtf8().data() << "\n";
   }
@@ -79,7 +80,7 @@ void V2RhoT::Info() {
        << "------\n"
        << "Temperatures       : " << File_Out.toUtf8().data() << "\n"
        << endl;
-  if(use_t_crust) {
+  if (use_t_crust) {
   cout << "Densities\n"
        << "---------\n"
        << "Crust              : "<< rho_crust << " kg/m3\n"
@@ -92,12 +93,12 @@ void V2RhoT::Info() {
        << "Q                  : " << MantleRock->getQ().toUtf8().data() << endl
        << endl;
 
-  if(MantleRock->CustomComposition() && !verbose) {
+  if (MantleRock->CustomComposition() && !verbose) {
     cout << "Using custom rock composition\n"
          << "-----------------------------\n";
     MantleRock->printComposition();
   }
-  if(verbose){
+  if (verbose) {
     cout << "Mantle rock composition" << endl
          << "-----------------------" << endl;
     MantleRock->printComposition();
@@ -183,7 +184,7 @@ void V2RhoT::help() {
 }
 
 void V2RhoT::argsError(QString val, bool ok) {
-  if(!ok) {
+  if (!ok) {
     cout << PRINT_ERROR "Invalid value in " << val.toUtf8().data() << endl;
     exit(1);
   }
@@ -206,134 +207,134 @@ void V2RhoT::readArgs(int &argc, char *argv[]) {
   definedPMethod = false;
 
   QStringList arg;
-  for(int i=0; i<argc; i++) {
+  for (int i=0; i < argc; i++) {
     arg << argv[i];
   }
 
-  if( (argc>1) && (arg[1]=="-h" || arg[1]=="-help") ) {
+  if ((argc > 1) && (arg[1] == "-h" || arg[1] == "-help")) {
     help();
-  } else if( (argc>1) && (arg[1]=="-prop")) {
+  } else if ((argc > 1) && (arg[1] == "-prop")) {
     MantleRock->printProperties();
-  } else if( (argc>1) && (arg[1]=="-writedRdT")) {
+  } else if ((argc > 1) && (arg[1] == "-writedRdT")) {
     MantleRock->writedRdT();
-  } else if( argc>1 && arg[1]=="--WRITEP_AK135") {
+  } else if (argc > 1 && arg[1] == "--WRITEP_AK135") {
     ERM->set("AK135");
     ok = ERM->writeP();
     argsError(arg[1], ok);
     exit(0);
-  } else if( argc>1 && arg[1]=="--BUILD") {
+  } else if (argc > 1 && arg[1] == "--BUILD") {
     cout << endl << "Build date: " << compilationTime.toUtf8().data() << endl
          << endl;
     exit(0);
-  }else if(argc<4) {
+  } else if (argc < 4) {
     cout << endl << PRINT_ERROR "Not enough arguments!";
     usage();
   } else {
     File_In = arg[1].toUtf8().data();
     File_Out = arg[2].toUtf8().data();
 
-    for(int i=3; i<argc; i++) {
-      if(arg[i]=="-type") {
-        if(arg[i+1]=="P" || arg[i+1]=="S") {
+    for (int i=3; i < argc; i++) {
+      if (arg[i] == "-type") {
+        if (arg[i+1] == "P" || arg[i+1] == "S") {
           VelType = arg[i+1];
           i++;
         } else {
           ok = false;
-          argsError(arg[i],ok);
+          argsError(arg[i], ok);
         }
-      } else if(arg[i]=="-AlphaT") {
+      } else if (arg[i] == "-AlphaT") {
         MantleRock->set_AlphaMode(1);
-      } else if(arg[i]=="-compc") {
-        for(int j=1; j<6; j++) {
+      } else if (arg[i] == "-compc") {
+        for (int j=1; j < 6; j++) {
           comp_input.append(arg[i+j].toDouble(&ok));
           argsError(arg[i+j], ok);
         }
         MantleRock->set_Comp(comp_input[0], comp_input[1], comp_input[2],
                              comp_input[3], comp_input[4]);
         i+=5;
-      } else if(arg[i]=="-compp") {
+      } else if (arg[i] == "-compp") {
         MantleRock->set_Comp(arg[i+1].toDouble(&ok));
         argsError(arg[i+1], ok);
         i++;
-      } else if(arg[i]=="-ERM") {
+      } else if (arg[i] == "-ERM") {
         ok = SetPMethod(arg[i+1]);
         argsError(arg[i], ok);
         definedPMethod = true;
         i++;
-      } else if(arg[i]=="-f") {
+      } else if (arg[i] == "-f") {
         UseCustomOmega = true;
         CustomFreq = arg[i+1].toDouble(&ok);
         argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-fdamp") {
+      } else if (arg[i] == "-fdamp") {
         c_Fdamp = arg[i+1].toDouble(&ok);
         argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-minDB"){
+      } else if (arg[i] == "-minDB") {
         int DBarg = arg[i+1].toInt(&ok);
         argsError(arg[i], ok);
-        if(DBarg==1){
+        if (DBarg == 1) {
           ok = MantleRock->set_MineralPropertyDB("Cammarano");
-        } else if(DBarg==2){
+        } else if (DBarg == 2) {
           ok = MantleRock->set_MineralPropertyDB("Goes");
         }
         argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-petrel") {
-        petrel=true;
-      } else if(arg[i]=="-Q") {
+      } else if (arg[i] == "-petrel") {
+        petrel = true;
+      } else if (arg[i] == "-Q") {
         int Qarg = arg[i+1].toInt(&ok);
         argsError(arg[i], ok);
         ok = MantleRock->setQ(Qarg);
         argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-rc") {
+      } else if (arg[i] == "-rc") {
         rho_crust = arg[i+1].toDouble(&ok);
         argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-rm") {
+      } else if (arg[i] == "-rm") {
         rho_mantle = arg[i+1].toDouble(&ok);
         argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-ra") {
+      } else if (arg[i] == "-ra") {
         rho_avrg = arg[i+1].toDouble(&ok);
         SetPMethod("simple");
         argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-scaleZ") {
+      } else if (arg[i] == "-scaleZ") {
         scaleZ = arg[i+1].toDouble(&ok);
         argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-scaleV") {
+      } else if (arg[i] == "-scaleV") {
         scaleVs = arg[i+1].toDouble(&ok);
         argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-scatter") {
+      } else if (arg[i] == "-scatter") {
         ArbitraryPoints = true;
-      } else if(arg[i]=="-Tstart") {
+      } else if (arg[i] == "-Tstart") {
         T_start = arg[i+1].toDouble(&ok);
         argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-t_crust") {
+      } else if (arg[i] == "-t_crust") {
         File_t_crust = arg[i+1];
         okCrust = true;
         SetPMethod("crust");
         definedPMethod = true;
         i++;
-      } else if(arg[i]=="-t") {
+      } else if (arg[i] == "-t") {
         threshold = arg[i+1].toDouble(&ok);
         argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-v") {
+      } else if (arg[i] == "-v") {
         verbose = true;
         MantleRock->setVerbose(verbose);
-      } else if(arg[i]=="-xfe") {
+      } else if (arg[i] == "-xfe") {
         double ArgXFe = arg[i+1].toDouble(&ok);
         argsError(arg[i], ok);
         ok = MantleRock->set_XFe(ArgXFe);
         argsError(arg[i], ok);
         i++;
-      } else if(arg[i]=="-z_topo") {
+      } else if (arg[i] == "-z_topo") {
         File_z_topo = arg[i+1];
         okTopo = true;
         SetPMethod("crust");
@@ -347,36 +348,34 @@ void V2RhoT::readArgs(int &argc, char *argv[]) {
   }
 
   // Some logic checks
-  if(!definedPMethod) {
+  if (!definedPMethod) {
     // If not defined by user initiate the default method
     ERM->set(PMethod);
   }
-  if(ArbitraryPoints && use_t_crust) {
+  if (ArbitraryPoints && use_t_crust) {
     cout << PRINT_ERROR "Defined crustal thickness/topography using scattered"
          << " data. Exit.\n";
     exit(1);
   }
-  if(okTopo ^ okCrust) {
+  if (okTopo ^ okCrust) {
     cout << PRINT_ERROR "Not enough arguments:" << endl;
-    if(okTopo) {
+    if (okTopo)
       cout << "No crustal thickness file defined!" << endl;
-    } else {
+    else
       cout << "No topographic elevation file defined!" << endl;
-    }
     exit(1);
   }
-  if(use_t_crust && (okTopo || okCrust)) {
+  if (use_t_crust && (okTopo || okCrust)) {
     cout << PRINT_ERROR "Pressure calculation method set to 'crust' but ";
-    if(okTopo) {
+    if (okTopo)
       cout << "crustal thickness not defined!" << endl;
-    } else {
+    else
       cout << "topography not defined!" << endl;
-    }
     exit(1);
   }
 
   // Define Omega
-  if(UseCustomOmega) {
+  if (UseCustomOmega) {
     MantleRock->set_omega(CustomFreq);
   } else {
     // If no custom frequency given define omega according to Goes et al. (2000)
@@ -387,10 +386,10 @@ void V2RhoT::readArgs(int &argc, char *argv[]) {
 
 bool V2RhoT::readFile(QString InName, QString InType) {
   // InType "topo", "crust" or "vox"
-  double x,y,z,val;
+  double x, y, z, val;
   bool okx, oky, okz, okval, okGrid;
 
-  okGrid = false; // Used to check if grid size was extracted from input voxel
+  okGrid = false;  // Used to check if grid size was extracted from input voxel
 
   cout << "Reading file: " << InName.toUtf8().data() << endl;
   QFile file(InName);
@@ -411,17 +410,17 @@ bool V2RhoT::readFile(QString InName, QString InType) {
   y_max3 = x_max1;
 
   int n = 0;
-  if(file.open(QIODevice::ReadOnly)) {
-  QTextStream stream( &file );
+  if (file.open(QIODevice::ReadOnly)) {
+  QTextStream stream(&file);
 
-  while(!stream.atEnd()) {
+  while (!stream.atEnd()) {
     n++;
     QString t = stream.readLine().simplified();
 
-    if(!t.startsWith("#") && (InType == "topo" || InType == "crust")) {
+    if (!t.startsWith("#") && (InType == "topo" || InType == "crust")) {
       /// Topography or crustal thickness
       QStringList vals = t.split(" ");
-      if(vals.count() != 6) {
+      if (vals.count() != 6) {
         file.close();
         cout << PRINT_ERROR "In header of " << InName.toUtf8().data()
              << " - grid size." << endl;
@@ -430,9 +429,9 @@ bool V2RhoT::readFile(QString InName, QString InType) {
         x = vals[0].toDouble(&okx);
         y = vals[1].toDouble(&oky);
         z = vals[2].toDouble(&okz);
-        if(okx && oky && okz) {
-          Point3D p3D(x,y,z);
-          if(InType == "crust") {
+        if (okx && oky && okz) {
+          Point3D p3D(x, y, z);
+          if (InType == "crust") {
             t_crust.append(p3D);
           } else if (InType == "topo") {
             z_topo.append(p3D);
@@ -442,47 +441,47 @@ bool V2RhoT::readFile(QString InName, QString InType) {
           cout << PRINT_ERROR "In value conversion line " << n << endl;
           return false;
         }
-        //Determine min/max
-        if(InType == "crust") {
-          if(x < x_min2) {
+        // Determine min/max
+        if (InType == "crust") {
+          if (x < x_min2) {
             x_min2 = x;
-          } else if(x > x_max2) {
+          } else if (x > x_max2) {
             x_max2 = x;
           }
-          if(y < y_min2) {
+          if (y < y_min2) {
             y_min2 = y;
-          } else if(y > y_max2) {
+          } else if (y > y_max2) {
             y_max2 = y;
           }
         } else if (InType =="topo") {
-            if(x < x_min3) {
+            if (x < x_min3) {
               x_min3 = x;
-            } else if(x > x_max3) {
+            } else if (x > x_max3) {
               x_max3 = x;
             }
-            if(y < y_min3) {
+            if (y < y_min3) {
               y_min3 = y;
-            } else if(y > y_max3) {
+            } else if (y > y_max3) {
               y_max3 = y;
             }
           }
         }
-      } else if(t.startsWith("# Grid_size:") && InType == "vox") {
+      } else if (t.startsWith("# Grid_size:") && InType == "vox") {
         // velocity grid
-        t.remove(0,12);
+        t.remove(0, 12);
         QStringList gridSize = t.split("x", QString::SkipEmptyParts);
         nX = gridSize[0].toInt(&okx);
         nY = gridSize[1].toInt(&oky);
         nZ = gridSize[2].toInt(&okz);
-        if(!okx || !oky || !okz) {
+        if (!okx || !oky || !okz) {
           cout << PRINT_ERROR "In header of " << InName.toUtf8().data()
                << " - grid size.";
           exit(1);
         }
         okGrid = true;
-      } else if(!t.startsWith("#") && InType == "vox") {
+      } else if (!t.startsWith("#") && InType == "vox") {
         QStringList vals = t.split(" ");
-        if(vals.count() != 4) {
+        if (vals.count() != 4) {
           file.close();
           cout << PRINT_ERROR "In line " << n << ": unkown amount of columns."
                << endl;
@@ -492,15 +491,15 @@ bool V2RhoT::readFile(QString InName, QString InType) {
           y = vals[1].toDouble(&oky);
           z = scaleZ*vals[2].toDouble(&okz);
           val = scaleVs*vals[3].toDouble(&okval);
-        if(val < 50) {
+        if (val < 50) {
           cout << endl << endl
                << PRINT_WARNING "Imported velocity is < 50 m/s! Maybe imported "
                << "velocities are in km/s?\n"
                << "To convert to m/s use option -scaleV 1000\n"
                << endl;
           exit(1);
-        } else if(okx && oky && okz && okval) {
-          Point5D p5D(x,y,z,val,0.0);
+        } else if (okx && oky && okz && okval) {
+          Point5D p5D(x, y, z, val, 0.0);
           data_V.append(p5D);
         } else {
           file.close();
@@ -508,26 +507,26 @@ bool V2RhoT::readFile(QString InName, QString InType) {
           exit(1);
         }
         // Get minima and maxima
-        if(x < x_min1) {
+        if (x < x_min1) {
           x_min1 = x;
-        } else if(x > x_max1) {
+        } else if (x > x_max1) {
           x_max1 = x;
         }
-        if(y < y_min1) {
+        if (y < y_min1) {
           y_min1 = y;
-        } else if(y > y_max1) {
+        } else if (y > y_max1) {
           y_max1 = y;
         }
-        if(z < z_min1) {
+        if (z < z_min1) {
           z_min1 = z;
-        } else if(z > z_max1) {
+        } else if (z > z_max1) {
           z_max1 = z;
         }
       }
     }
   }
 
-  if(!ArbitraryPoints && !okGrid) {
+  if (!ArbitraryPoints && !okGrid) {
     cout << PRINT_WARNING "Could not find grid information. Set output to "
          << "scattered data.\n";
     ArbitraryPoints = true;
@@ -547,11 +546,10 @@ bool V2RhoT::saveFile(QString OutName) {
   QDateTime currentDateTime = QDateTime::currentDateTime();
   QString timestamp = currentDateTime.toString();
 
-  if(use_t_crust) {
+  if (use_t_crust)
     usecrust = "yes";
-  } else {
+  else
     usecrust = "no";
-  }
 
   Info_header  = QString("# Transformation settings:\n");
   Info_header += QString("# Date created: %1\n").arg(timestamp);
@@ -564,13 +562,13 @@ bool V2RhoT::saveFile(QString OutName) {
   Info_header += QString("# Gnt - %1\n").arg(MantleRock->getComposition(4), 5, 'f', 2);
   Info_header += QString("# Iron content XFe: %1\n").arg(MantleRock->getXFe(),3,'f',2);
   Info_header += QString("# Pressure calculation method: %1\n").arg(PMethod);
-  if(use_t_crust) {
+  if (use_t_crust) {
     Info_header += QString("# Use crustal thickness for pressure calculation: %1\n").arg(usecrust);
     Info_header += QString("# Density crust/mantle/average: %1%2%3\n")
-      .arg(rho_crust,7,'f',1).arg(rho_mantle,7,'f',1).arg(rho_avrg,7,'f',1);
+      .arg(rho_crust, 7, 'f', 1).arg(rho_mantle, 7, 'f', 1).arg(rho_avrg, 7, 'f', 1);
   }
   Info_header += QString("# Alpha: %1\n").arg(MantleRock->get_AlphaModeStr());
-  if(use_t_crust) {
+  if (use_t_crust) {
     Info_header += QString("# Topography: %1\n").arg(File_z_topo);
     Info_header += QString("# Crustal thickness: %1\n").arg(File_t_crust);
   }
@@ -580,7 +578,7 @@ bool V2RhoT::saveFile(QString OutName) {
   Info_header += QString("# Anelasticity parameters: %1\n").arg(MantleRock->getQ());
   Info_header += QString("# Average iteration steps: %1\n").arg(count_avrg,0,'f',1);
 
-  if(petrel) {
+  if (petrel) {
     T_header  = QString("# Petrel Points with attributes\n");
     T_header += QString("# Unit in X and Y direction: m\n");
     T_header += QString("# Unit in depth: m\n");
@@ -628,7 +626,7 @@ bool V2RhoT::saveFile(QString OutName) {
   cout << "Writing temperature file " << OutName.toUtf8().data() << endl;
   QFile tmp(OutName);
 
-  if(!tmp.open(QIODevice::WriteOnly | QIODevice::Text)) {
+  if (!tmp.open(QIODevice::WriteOnly | QIODevice::Text)) {
     cout << PRINT_ERROR "Could not open file " << OutName.toUtf8().data()
          << endl;
     exit(1);
@@ -639,7 +637,7 @@ bool V2RhoT::saveFile(QString OutName) {
   fout.setFieldAlignment(QTextStream::AlignRight);
   fout.setRealNumberNotation(QTextStream::FixedNotation);
   fout << T_header.toUtf8().data() << endl;
-  for(int i=0; i<data_T.length(); i++) {
+  for (int i=0; i < data_T.length(); i++) {
     fout << data_T[i].x();
     fout << "\t";
     fout << data_T[i].y();
@@ -680,16 +678,16 @@ bool V2RhoT::SetPMethod(QString method) {
 }
 
 double V2RhoT::pressure(double x, double y, double z) {
-  if(PMethod=="AK135" || PMethod=="PREM") {
+  if (PMethod == "AK135" || PMethod == "PREM") {
     return ERM->pressure(z);
-  } else if(use_t_crust) {
+  } else if (use_t_crust) {
     return pressure_crust(x, y, z);
   } else {
     return pressure_simple(z);
   }
 }
 
-double V2RhoT::pressure_simple(double z){
+double V2RhoT::pressure_simple(double z) {
   // Simple lithostatic pressure with average density
   return rho_avrg * c_g * abs(z);
 }
@@ -710,12 +708,14 @@ double V2RhoT::pressure_crust(double x, double y, double z) {
   double P_crust, t_mantle, P_mantle;
 
   // Get index in data_t_crust and data_z_topo
-  int i=0;
-  while( (t_crust[i].x()!=x) && (t_crust[i].y()!=y)) {i++;}
+  int i = 0;
+  while ((t_crust[i].x() != x) && (t_crust[i].y() != y))
+    i++;
   i_crust = i;
   i = 0;
-  while( (z_topo[i].x()!=x) && (z_topo[i].y()!=y)) {i++;}
-  i_topo=i;
+  while ((z_topo[i].x() != x) && (z_topo[i].y() != y))
+    i++;
+  i_topo = i;
 
   P_crust = rho_crust*c_g*t_crust[i_crust].z();              // Pressure crust
   t_mantle = z_topo[i_topo].z() - t_crust[i_crust].z() - z;  // Mantle thickness
@@ -745,20 +745,21 @@ bool V2RhoT::Iterate() {
        << "T_start: " << T_start << " K\n";
 
   n_V = data_V.length();
-  for(int i=0; i<n_V; i++) {
+  for (int i=0; i < n_V; i++) {
     V = data_V[i].v();
     x = data_V[i].x();
     y = data_V[i].y();
     z = data_V[i].z();
     P = pressure(x, y, z);
-    MantleRock->calc_prop(VelType);   // Calculate all P/T independent rock properties
+    // Calculate all P/T independent rock properties
+    MantleRock->calc_prop(VelType);
     T_n = T_start;    // Temperature at step n
     T_n1 = 0.;        // Temperature at step n+1
     counter = 0;
     deltaT = threshold + 1;
-    while(deltaT > threshold) {
+    while (deltaT > threshold) {
       // Calculate rock properties
-      if(verbose){
+      if (verbose) {
         cout << endl << endl
              << "Point " << i+1 << ", Step " << counter << endl
              << "X                " << x << endl
@@ -774,7 +775,7 @@ bool V2RhoT::Iterate() {
       T_n1 = T_n + c_Fdamp*(V - Vsyn)/dVdTsyn;
       deltaT = abs(T_n - T_n1);
       counter = counter + 1;
-      if(counter>10000) {
+      if (counter > 10000) {
         cout << "Too many iterations at point " << i << endl
              << "X(" << x << ") Y(" << y <<") Z(" << z << ") V(" << V << ")\n"
              << "Set T=-1\n";
@@ -784,7 +785,7 @@ bool V2RhoT::Iterate() {
       T_n = T_n1;
     }
 
-    if(verbose) {
+    if (verbose) {
       cout << "Iteration finished, deltaT = " << deltaT
            << ", T = " << T_n1 << endl;
     }
@@ -795,10 +796,11 @@ bool V2RhoT::Iterate() {
     p5D.setZ(z);
     p5D.setProp(MantleRock->getRho());
     data_T.append(p5D);
-    count_total.append(double(counter));
+    count_total.append(static_cast<double>(counter));
 
-    progress = (int)round( (double(i)/double(n_V)) * 100.);
-    if(progress % 5 == 0) {
+    progress = static_cast<int>(
+               round(static_cast<double>(i)/static_cast<double>(n_V))*100.0);
+    if (progress % 5 == 0) {
       printf("\rProgress: %i  ", progress);
     }
   }
@@ -806,7 +808,7 @@ bool V2RhoT::Iterate() {
 
   // Calculate average counts
   count_avrg = 0;
-  for(int i=0; i<n_V; i++) {
+  for (int i=0; i < n_V; i++) {
     count_avrg = count_avrg + count_total[i];
   }
   count_avrg = count_avrg/n_V;
@@ -819,10 +821,10 @@ bool V2RhoT::Iterate() {
 //##############################################################################
 int main(int argc, char *argv[]) {
   V2RhoT VelTemp;
-  if(argc > 0) {
-    VelTemp.readArgs(argc,argv);
+  if (argc > 0) {
+    VelTemp.readArgs(argc, argv);
     VelTemp.Info();
-    VelTemp.readFile(VelTemp.FileIn(),"vox");
+    VelTemp.readFile(VelTemp.FileIn(), "vox");
     VelTemp.Iterate();
     VelTemp.saveFile(VelTemp.FileOut());
   } else {

@@ -10,7 +10,7 @@ MAPWIDTH = 6
 
 # Targets
 
-clean: plot
+clean:
 	rm Vs.dat Vp.dat V2RhoT_Vs.dat V2RhoT_Vp.dat V2T_Vs.dat gmt.*
 
 plot: convert

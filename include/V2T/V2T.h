@@ -76,32 +76,31 @@ class V2T {
   QList <double> ERMz;    // List for depth values of the Earth reference model
   QList <double> ERMrho;  // List for density values of the ERM
 
-  public:
-    V2T();
-    bool newton();
-    bool readFile(QString InName, QString InType);
-    bool saveFile(QString OutName);
-    void readArgs(int &argc, char *argv[]);
-    bool test_data();
-    void Info();
-    void usage();
+  void usage_extended();
+  void argsError(QString val, bool ok);
+  bool SetPMethod(QString method);
+  double ftheta(double VsS, double P, double T);
+  double dfdtheta(double P, double T);
+  double pressure(double x, double y, double z);
+  double pressure_simple(double z);
+  double pressure_crust(double x, double y, double z);
+  void WRITE_P(QString method);
 
-    QString FileIn(){return File_In;}
-    QString FileZTopo(){return File_z_topo;}
-    QString FileTCrust(){return File_t_crust;}
-    QString FileOut(){return File_Out;}
-    bool UseCrust(){return use_t_crust;}
+ public:
+  V2T();
+  bool newton();
+  bool readFile(QString InName, QString InType);
+  bool saveFile(QString OutName);
+  void readArgs(int &argc, char *argv[]);
+  bool test_data();
+  void Info();
+  void usage();
 
-  private:
-    void usage_extended();
-    void argsError(QString val, bool ok);
-    bool SetPMethod(QString method);
-    double ftheta(double VsS, double P, double T);
-    double dfdtheta(double P, double T);
-    double pressure(double x, double y, double z);
-    double pressure_simple(double z);
-    double pressure_crust(double x, double y, double z);
-    void WRITE_P(QString method);
+  QString FileIn() {return File_In;}
+  QString FileZTopo() {return File_z_topo;}
+  QString FileTCrust() {return File_t_crust;}
+  QString FileOut() {return File_Out;}
+  bool UseCrust() {return use_t_crust;}
 };
 
 #endif // V2T_H_

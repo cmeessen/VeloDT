@@ -18,7 +18,12 @@
 #include "Rock.h"
 
 #define _USE_MATH_DEFINES
-using namespace std;
+using std::cout;
+using std::endl;
+using std::setw;
+using std::setfill;
+using std::left;
+using std::right;
 
 Rock::Rock() {
   /**
@@ -46,7 +51,7 @@ Rock::Rock() {
 
   // Generate property lists
   // Lists with _PT refer to pressure and temperature dependent properties
-  for(int i=0; i<5; i++) {
+  for (int i=0; i < 5; i++) {
     Composition.append(0.0);
     minerals_rho.append(0.0);
     minerals_rhoXFe.append(0.0);
@@ -95,7 +100,7 @@ Rock::~Rock() {
 }
 
 bool Rock::set_AlphaMode(int mode) {
-  switch(mode) {
+  switch (mode) {
     case 0:
       // Alpha = const.
       AlphaMode = mode;
@@ -117,7 +122,7 @@ bool Rock::set_AlphaMode(int mode) {
 }
 
 bool Rock::set_MineralPropertyDB(QString db) {
-  if(db=="Goes") {
+  if (db == "Goes") {
     // Original database by Goes et al. (2000)
     set_Rho(3222.0, 3198.0, 3280.0, 3578.0, 3565.0);
     set_drhodX(1182.0, 804.0, 377.0, 702.0, 758.0);
@@ -136,7 +141,7 @@ bool Rock::set_MineralPropertyDB(QString db) {
     set_alpha3(-0.338, -1.7278, -1.8167, 5.0395, -2.5);
     MineralPropertyDB = "Goes et al. (2000)";
     return true;
-  } else if(db=="Cammarano") {
+  } else if (db == "Cammarano") {
     // Newer database by Cammarano et al. (2003)
     set_Rho(3222, 3215, 3277, 3578, 3565);
     set_drhodX(1182, 799, 380, 702, 0);
@@ -160,7 +165,7 @@ bool Rock::set_MineralPropertyDB(QString db) {
 }
 
 QString Rock::get_AlphaModeStr() {
-  switch(AlphaMode) {
+  switch (AlphaMode) {
     case 0:
       return QString("Constant");
     case 1:
@@ -172,7 +177,7 @@ QString Rock::get_AlphaModeStr() {
 
 void Rock::set_Comp_init(double Ol, double Opx, double Cpx, double Sp,
                    double Gnt) {
-  if(Ol + Opx + Cpx + Sp + Gnt == 1.0) {
+  if (Ol + Opx + Cpx + Sp + Gnt == 1.0) {
     Composition[0] = Ol;
     Composition[1] = Opx;
     Composition[2] = Cpx;
@@ -186,7 +191,7 @@ void Rock::set_Comp_init(double Ol, double Opx, double Cpx, double Sp,
 }
 
 void Rock::set_Comp(double Ol, double Opx, double Cpx, double Sp, double Gnt) {
-  if(Ol + Opx + Cpx + Sp + Gnt == 1.0) {
+  if (Ol + Opx + Cpx + Sp + Gnt == 1.0) {
     UseCustomComposition = true;
     Composition[0] = Ol;
     Composition[1] = Opx;
@@ -201,16 +206,16 @@ void Rock::set_Comp(double Ol, double Opx, double Cpx, double Sp, double Gnt) {
 }
 
 void Rock::set_Comp(int i) {
-  if(i == 0) {
+  if (i == 0) {
     // Default composition after Goes et al (2000)
     set_Comp(0.67, 0.225, 0.045, 0.0, 0.06);
-  } else if(i == 1) {
+  } else if (i == 1) {
     // On-cratonic Shapiro and Ritzwoller (2004)
     set_Comp(0.83, 0.15, 0.0, 0.0, 0.02);
-  } else if(i == 2) {
+  } else if (i == 2) {
     // Off-cratonic Shapiro and Ritzwoller (2004)
     set_Comp(0.68, 0.18, 0.11, 0.0, 0.03);
-  } else if(i == 3) {
+  } else if (i == 3) {
     // Oceanic Shapiro and Ritzwoller (2004)
     set_Comp(0.75, 0.21, 0.035, 0.005, 0.0);
   } else {
@@ -346,7 +351,7 @@ void Rock::set_omega(double f) {
 
 bool Rock::setQ(int mode) {
   // Defines which Q-mode to be used
-  if(mode == 1) {
+  if (mode == 1) {
     Qmode = "Sobolev et al. (1996)";
     c_a = 0.15;
     c_A = 0.148;
@@ -355,7 +360,7 @@ bool Rock::setQ(int mode) {
     cout << endl
          << "Using anelastic parameters according to Sobolev et a. (1996).\n";
     return true;
-  } else if(mode == 2) {
+  } else if (mode == 2) {
     Qmode = "Berckhemer et al. (1982)";
     c_a = 0.25;
     c_A = 0.0002;
@@ -383,7 +388,7 @@ void Rock::printline(int width, QString title, QString unit,
                      QList <double> object) {
   cout << left << setw(width) << setfill(' ') << title.toUtf8().data();
   cout << left << setw(10) << setfill(' ') << unit.toUtf8().data();
-  for(int i=0; i<5; i++) {
+  for (int i=0; i < 5; i++) {
     cout << right << setw(10) << setfill(' ') << object[i];
   }
   cout << endl;
@@ -410,14 +415,15 @@ void Rock::printComposition() {
   cout << endl
        << left << setw(width_col_1) << setfill(' ') << "Property"
        << left << setw(width_col_2) << setfill(' ') << "Unit";
-  for(int i=0; i<6; i++) {
-    cout << right << setw(width_col_c) << setfill(' ') << header[i].toUtf8().data();
+  for (int i=0; i < 6; i++) {
+    cout << right << setw(width_col_c) << setfill(' ')
+         << header[i].toUtf8().data();
   }
   cout << endl
        << setw(width_tot) << setfill('-') << "" << endl
        << left << setw(width_col_1) << setfill(' ') << "Composition"
        << left << setw(width_col_2) << setfill(' ') << "rel.";
-  for(int i=0; i<6; i++) {
+  for (int i = 0; i < 6; i++) {
     cout << right << setw(width_col_c) << setfill(' ') << info_output[i];
   }
   cout << endl << endl;
@@ -430,7 +436,7 @@ void Rock::writedRdT() {
 
 void Rock::printProperties() {
   QList <QString> header;
-  int width=15;
+  const int width = 15;
   header << ("Ol");
   header << ("Opx");
   header << ("Cpx");
@@ -443,7 +449,7 @@ void Rock::printProperties() {
        << endl
        << left << setw(width) << setfill(' ') << "Property"
        << left << setw(10) << setfill(' ') << "Unit";
-  for(int i=0; i<5; i++) {
+  for (int i=0; i < 5; i++) {
     cout << right << setw(10) << setfill(' ') << header[i].toUtf8().data();
   }
   cout << endl;
@@ -470,23 +476,22 @@ void Rock::printProperties() {
 
 void Rock::alpha() {
   // Calculates alpha(rock_T)
-  if(verbose){
+  if (verbose) {
     cout << endl << "Calculate alpha(T)" << endl
          << "> AlphaMode " << AlphaMode << endl;
   }
-  switch(AlphaMode) {
+  switch (AlphaMode) {
     case 0:
-      if(verbose){cout << "> alpha=const." << endl;}
-      for(int i=0; i<5; i++) {
+      if (verbose) cout << "> alpha=const." << endl;
+      for (int i=0; i < 5; i++)
         minerals_alpha_T[i] = minerals_alpha0[i];
-      }
       break;
     case 1:
-      if(verbose){cout << "> alpha(T)" << endl;}
-      for(int i=0; i<5; i++) {
+      if (verbose) cout << "> alpha(T)" << endl;
+      for (int i=0; i < 5; i++)
         minerals_alpha_T[i] = minerals_alpha0[i] + minerals_alpha1[i]*rock_T
-        + minerals_alpha2[i]/rock_T + minerals_alpha3[i]/rock_T/rock_T;
-      }
+                              + minerals_alpha2[i]/rock_T
+                              + minerals_alpha3[i]/rock_T/rock_T;
       break;
   }
 }
@@ -498,14 +503,14 @@ bool Rock::set_XFe(double val) {
 }
 
 void Rock::rho_PT() {
-  //Sets VRH average rock density
+  // Sets VRH average rock density
   QList <double> rho_minerals_PT;
   double rho_avrg_PT;
   // Calculate rho(P,T) for each mineral
   rho_avrg_PT = 0.0;
-  if(verbose){cout << endl << "Calculate rho_PT" << endl;}
-  for(int i=0; i<5; i++) {
-    if(verbose){
+  if (verbose) cout << endl << "Calculate rho_PT" << endl;
+  for (int i=0; i < 5; i++) {
+    if (verbose) {
       cout << "Mineral index i     " << i << endl
            << "> minerals_rhoXFe[i]  " << minerals_rhoXFe[i] << endl
            << "> minerals_alpha_T[i] " << minerals_alpha_T[i] << endl
@@ -518,29 +523,28 @@ void Rock::rho_PT() {
            << "> rho_minerals_PT[i]  " << rho_minerals_PT[i] << endl;
     }
     rho_minerals_PT.append(minerals_rhoXFe[i]*(1. - minerals_alpha_T[i]*(rock_T
-      - c_T0) + (rock_P - c_P0)/minerals_K_PT[i]));
+                           - c_T0) + (rock_P - c_P0)/minerals_K_PT[i]));
     rho_avrg_PT = rho_avrg_PT + Composition[i]*rho_minerals_PT[i];
   }
   rock_rho_PT = rho_avrg_PT;
 }
 
 void Rock::mu_PT() {
-  //Returns VRH averaged rock property <mu>
+  // Returns VRH averaged rock property <mu>
   double mu_voigt, mu_reuss;
-  if(verbose){cout << endl << "Calculate mu(P,T)\n";}
+  if (verbose) cout << endl << "Calculate mu(P,T)\n";
   // Calculate mu(P,T) for each mineral
-  for(int i=0; i<5; i++) {
+  for (int i=0; i < 5; i++) {
     minerals_mu_PT[i] = minerals_mu[i] + (rock_T - c_T0)*minerals_dmudT[i]
                         + (rock_P - c_P0)*minerals_dmudP[i]
                         + rock_XFe*minerals_dmudX[i];
-    if(verbose){
+    if (verbose)
       cout << "> mu[" << i << "]:           " << minerals_mu_PT[i] << endl;
-    }
   }
   // Calculate mu_voigt and mu_reuss
   mu_voigt = 0.0;
   mu_reuss = 0.0;
-  for(int i=0; i<5; i++) {
+  for (int i=0; i < 5; i++) {
     mu_voigt = mu_voigt + Composition[i]*minerals_mu_PT[i];
     mu_reuss = mu_reuss + Composition[i]/minerals_mu_PT[i];
   }
@@ -553,23 +557,22 @@ void Rock::K_PT() {
   // Returns VRH averaged rock property <K>
   double K_voigt, K_reuss;
 
-  if(verbose){cout << endl << "Calculate K(P,T)\n";}
+  if (verbose) cout << endl << "Calculate K(P,T)\n";
   // Calculate K(P,T) for each mineral
-  for(int i=0; i<5; i++) {
+  for (int i=0; i < 5; i++) {
     minerals_K_PT[i] = minerals_K[i] + (rock_T - c_T0)*minerals_dKdT[i]
                        + (rock_P - c_P0)*(minerals_dKdP[i]
                        + rock_XFe*minerals_dKdPdX[i])
                        + rock_XFe*minerals_dKdX[i];
-    if(verbose){
+    if (verbose)
       cout << "K[" << i << "]:            " << minerals_K_PT[i] << endl;
-    }
   }
 
   // Calculate K_voigt and K_reuss
   K_voigt = 0.0;
   K_reuss = 0.0;
 
-  for(int i=0; i<5; i++) {
+  for (int i=0; i < 5; i++) {
     K_voigt = K_voigt + Composition[i]*minerals_K_PT[i];
     K_reuss = K_reuss + Composition[i]/minerals_K_PT[i];
   }
@@ -581,30 +584,27 @@ void Rock::K_PT() {
 void Rock::Qmu_T() {
   // Calculate Q_mu, Eqn A6
   double val, Estar;
-  if(verbose){cout << endl << "Calculate Qmu_T" << endl;}
+  if (verbose) cout << endl << "Calculate Qmu_T" << endl;
   Estar = c_H + rock_P*c_V;
   val = c_A*pow(c_omega, c_a)*exp(c_a*Estar/c_R/rock_T);
-  if(verbose){cout << "> Qmu(T) = " << val << endl;}
+  if (verbose) cout << "> Qmu(T) = " << val << endl;
   rock_Qmu_T = val;
 }
 
 void Rock::QP_T() {
   // Calculate Q_P, Eqn A7
-  double val, Estar, L;
-  if(verbose){cout << endl << "Calculate QP_T" << endl;}
-  Estar = c_H + rock_P*c_V;
-  val = c_A*pow(c_omega,c_a)*exp(c_a*Estar/c_R/rock_T);
+  double L;
+  if (verbose) cout << endl << "Calculate QP_T" << endl;
   L = 4.*rock_mu_PT/(3.*rock_K_PT + 4.*rock_mu_PT);
   rock_QP_T = rock_Qmu_T/L;
-  if(verbose){cout << "> QP(T) = " << rock_QP_T << endl;}
+  if (verbose) cout << "> QP(T) = " << rock_QP_T << endl;
 }
 
 void Rock::dmudT() {
   double anh_mu_reuss = 0;
-  if(verbose){cout << endl << "Calculate dmudT" << endl;}
-  for(int i=0; i<5; i++) {
+  if (verbose) cout << endl << "Calculate dmudT" << endl;
+  for (int i=0; i < 5; i++)
     anh_mu_reuss = anh_mu_reuss + Composition[i]/minerals_mu_PT[i];
-  }
   anh_mu_reuss = 1./anh_mu_reuss;
   rock_dmudT = anh_sum1 + anh_sum2/pow(anh_mu_reuss, 2);
 }
@@ -613,16 +613,17 @@ void Rock::dMdT() {
   // Calculate d<M>/dT (P,T) for P-waves, Eqn. A5b
   double M_reuss = 0.0;
   anh_sum2 = 0.0;
-  if(verbose){cout << "Calculate d<M>/dT\n";}
-  for(int i=0; i<5; i++) {
-    M_reuss = M_reuss + Composition[i]/(minerals_K_PT[i] + + 4./3*minerals_mu_PT[i]);
+  if (verbose) cout << "Calculate d<M>/dT" << endl;
+  for (int i=0; i < 5; i++) {
+    M_reuss = M_reuss + Composition[i]/(minerals_K_PT[i]
+                                        + 4.0/3.0*minerals_mu_PT[i]);
     anh_sum2 = anh_sum2 + (Composition[i]/(minerals_K_PT[i]
                            + 4./3*minerals_mu_PT[i])*(minerals_dKdT[i]
                            + 4./3*minerals_dmudT[i]));
   }
   M_reuss = 1./M_reuss;
 
-  if(verbose) {
+  if (verbose) {
     cout << "M_reuss:          " << M_reuss << endl
          << "anh_sum1:         " << anh_sum1 << endl
          << "anh_sum2:         " << anh_sum2 << endl;
@@ -635,17 +636,17 @@ void Rock::Vsyn_PT(QString VelType) {
   // Calculate synthethic velocity, Eqn A8
   double Vanh, Vanel;
 
-  if(verbose){cout << endl << "Calculate Vsyn_PT:\n";}
-  if(VelType=="S") {
+  if (verbose) cout << endl << "Calculate Vsyn_PT:\n";
+  if (VelType == "S") {
     Vanh = sqrt(rock_mu_PT/rock_rho_PT);
     Vanel = 1. - 2./rock_Qmu_T/tan(M_PI*c_a/2.);
   } else {
-    if(verbose){cout << "VelType:         P\n";}
+    if (verbose) cout << "VelType:         P\n";
     Vanh = sqrt((rock_K_PT + 4./3*rock_mu_PT)/rock_rho_PT);
     Vanel = 1. - 2./rock_QP_T/tan(M_PI*c_a/2.);
   }
 
-  if(verbose) {
+  if (verbose) {
     cout << "rock_K_PT:       " << rock_K_PT << endl
          << "rock_mu_PT:      " << rock_mu_PT << endl
          << "rock_rho_PT:     " << rock_rho_PT << endl
@@ -662,8 +663,8 @@ void Rock::drhodT_T() {
   QList <double> mineral_drhodT_T;
 
   result = 0.;
-  for(int i=0; i<5; i++) {
-    mineral_drhodT_T.append(dRhodT->dRhodT(rock_T,i));
+  for (int i=0; i < 5; i++) {
+    mineral_drhodT_T.append(dRhodT->dRhodT(rock_T, i));
     // Calculate average drho/dT for rock
     result = result + Composition[i]*mineral_drhodT_T[i];
   }
@@ -673,16 +674,17 @@ void Rock::drhodT_T() {
 void Rock::dVdTsyn_PT(QString VelType) {
   // Calculate dV/dT_syn, Eqn. A9 (anel) and A4 (anh)
   double dVdTanel, dVdTanh;
-  if(VelType=="S") {
+  if (VelType == "S") {
     dVdTanel = c_A*c_H/rock_Qmu_T/2./c_R/rock_T/rock_T/tan(M_PI*c_a/2.);
     dVdTanh = (rock_dmudT - pow(rock_Vsyn_PT, 2)*rock_drhodT_T)
               /(2.*rock_rho_PT*rock_Vsyn_PT);
   } else {
     dVdTanel = c_A*c_H/rock_QP_T/2./c_R/rock_T/rock_T/tan(M_PI*c_a/2.);
-    dVdTanh = (rock_dMdT_PT - pow(rock_Vsyn_PT,2)*rock_drhodT_T)/(2.*rock_rho_PT*rock_Vsyn_PT);
+    dVdTanh = (rock_dMdT_PT - pow(rock_Vsyn_PT, 2)*rock_drhodT_T)/
+              (2.*rock_rho_PT*rock_Vsyn_PT);
   }
 
-  if(verbose) {
+  if (verbose) {
     cout << "Calculate dV/dT_syn\n"
          << "dVdTanel:          " << dVdTanel << endl
          << "dVdTanh:           " << dVdTanh << endl;
@@ -702,17 +704,20 @@ bool Rock::calc_prop_PT(double Pressure, double Temperature, QString VelType) {
   mu_PT();
   Qmu_T();
 
-  if(VelType=="P"){ QP_T();}
+  if (VelType == "P")
+    QP_T();
 
   Vsyn_PT(VelType);
 
-  if(VelType=="S"){ dmudT();}
-  else            { dMdT();}
+  if (VelType == "S")
+    dmudT();
+  else
+    dMdT();
 
   drhodT_T();
   dVdTsyn_PT(VelType);
 
-  if(verbose) {
+  if (verbose) {
     cout << endl
          << "Calculated properties:" << endl
          << "rock_T:          " << rock_T << endl
@@ -734,16 +739,16 @@ bool Rock::calc_prop_PT(double Pressure, double Temperature, QString VelType) {
 bool Rock::calc_prop(QString VelType) {
   // Calculates P/T independent parameters for Eqn A5b
 
-  if(verbose){
+  if (verbose) {
     cout << "----------------------------------------------" << endl
          << "Calculating P/T independent parameters" << endl
          << "----------------------------------------------" << endl;
   }
 
   // Mineral density including iron content
-  for(int i=0; i<5; i++) {
+  for (int i=0; i < 5; i++) {
     minerals_rhoXFe[i] = minerals_rho[i] + minerals_drhodX[i]*rock_XFe;
-    if(verbose){
+    if (verbose) {
       cout << "minerals_rho[i]    " << minerals_rho[i] << endl
            << "minerals_drhodX[i] " << minerals_drhodX[i] << endl
            << "rock_XFe           " << rock_XFe << endl
@@ -752,16 +757,15 @@ bool Rock::calc_prop(QString VelType) {
   }
 
   anh_sum1 = 0.;
-  if(VelType=="S") {
-    for(int i=0; i<5; i++) {
+  if (VelType == "S") {
+    for (int i=0; i < 5; i++)
       anh_sum1 = anh_sum1 + Composition[i]*minerals_dmudT[i];
-    }
   } else {
-    for(int i=0; i<5; i++) {
+    for (int i=0; i < 5; i++)
       anh_sum1 = anh_sum1 + Composition[i]*(minerals_dKdT[i]
-                 + 4./3.*minerals_dmudT[i]);
-    }
+                                            + 4.0/3.0*minerals_dmudT[i]);
   }
-  if(verbose){cout << "----------------------------------------------" << endl;}
+  if (verbose)
+    cout << "----------------------------------------------" << endl;
   return true;
 }

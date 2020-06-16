@@ -32,7 +32,6 @@ This class hosts the mineral property dRho/dT
 It must be calculated numerically to avoid errors far away from the reference
 temperature. The values will be stored in arrays.
 **/
-private:
   // Variables
   double Tmin, Tmax;
   QList <QList <double> > vals;
@@ -43,10 +42,10 @@ private:
                  double Gnt);
   void fill();             // Calculate dRho/dT tables
 
-public:
+ public:
   MineraldRhodT();
   bool set_AlphaMode(int mode);
-  double dRhodT(double T, int mineral); // Returns dRhodT at T
+  double dRhodT(double T, int mineral);  // Returns dRhodT at T
   void exportTable();
 };
 
